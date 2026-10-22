@@ -1,0 +1,32 @@
+import "dotenv/config";
+import jwt from "jsonwebtoken";
+import type {
+    ITokenPayload,
+    ITokenService
+} from "../../../application/ports/iTokenService.js";
+
+export class TokenService implements ITokenService {
+    private readonly secret: string;
+
+    constructor() {
+        const secret = process.env.JWT_SECRET;
+
+        if (!secret) {
+            throw new Error("Falta configurar JWT_SECRET en .env");
+        }
+
+        this.secret = secret;
+    }
+
+    generar(payload: ITokenPayload): string {
+        return jwt.sign(
+            { roles: payload.roles },
+            this.secret,
+            {
+                subject: payload.cusuario,
+                algorithm: "HS256",
+                expiresIn: "1h"
+            }
+        );
+    }
+}
