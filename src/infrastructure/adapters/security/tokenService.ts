@@ -1,9 +1,7 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
-import type {
-    ITokenPayload,
-    ITokenService
-} from "../../../application/ports/iTokenService.js";
+import type {ITokenService} from "../../../application/ports/iTokenService.js";
+import {ITokenPayload} from "../../../application/dtos/iTokenPayload.js";
 
 export class TokenService implements ITokenService {
     private readonly secret: string;
