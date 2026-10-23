@@ -1,7 +1,4 @@
-export interface ITokenPayload {
-    cusuario: string;
-    roles: string[];
-}
+import {ITokenPayload} from "../dtos/iTokenPayload.js";
 
 export interface ITokenService {
     generar(payload: ITokenPayload): string;

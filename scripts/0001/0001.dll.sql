@@ -101,3 +101,7 @@ alter table USUARIOROL
    add constraint FKUSUARIOROLUSUARIO foreign key (CUSUARIO)
       references USUARIO (CUSUARIO)
       on delete restrict on update restrict;
+
+
+CREATE UNIQUE INDEX uq_usuario_correo_normalizado
+    ON public.usuario (LOWER(TRIM(correo)));

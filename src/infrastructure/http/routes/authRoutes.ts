@@ -6,11 +6,15 @@ import { TokenService } from "../../adapters/security/tokenService.js";
 import { LoginController } from "../controllers/loginController.js";
 import { AuthMiddleware } from "../middlewares/authMiddleware.js";
 import { autorizarRoles } from "../middlewares/roleMiddleware.js";
+import { RegistroUsuarioUseCase } from "../../../application/use-cases/registroUsuarioUseCase.js";
+import { RegistroController } from "../controllers/registroController.js";
 
 const usuarioRepository = new UsuarioPostgresRepository();
 const passwordService = new PasswordService();
 const tokenService = new TokenService();
 const authMiddleware = new AuthMiddleware(tokenService);
+const registroUsuarioUseCase = new RegistroUsuarioUseCase(usuarioRepository, passwordService);
+const registroController = new RegistroController(registroUsuarioUseCase);
 
 const loginUseCase = new LoginUseCase(
     usuarioRepository,
@@ -37,4 +41,6 @@ authRoutes.get("/admin", authMiddleware.autenticar, autorizarRoles("ADMINISTRADO
             usuario: res.locals.usuario
         });
     }
-);
+)
+
+authRoutes.post("/registro", registroController.ejecutar);
