@@ -5,4 +5,5 @@ export interface ITokenPayload {
 
 export interface ITokenService {
     generar(payload: ITokenPayload): string;
+    verificar(token: string): ITokenPayload;
 }

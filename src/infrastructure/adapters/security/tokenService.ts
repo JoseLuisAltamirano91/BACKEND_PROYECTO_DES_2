@@ -29,4 +29,29 @@ export class TokenService implements ITokenService {
             }
         );
     }
+
+    verificar(token: string): ITokenPayload {
+        const payload = jwt.verify(token, this.secret, {
+            algorithms: ["HS256"]
+        });
+
+        if (
+            typeof payload === "string" ||
+            typeof payload.sub !== "string" ||
+            payload.sub.trim().length === 0 ||
+            typeof payload.exp !== "number" ||
+            !Number.isFinite(payload.exp) ||
+            !Array.isArray(payload.roles) ||
+            !payload.roles.every(
+                (rol: unknown) => typeof rol === "string" && rol.trim().length > 0
+            )
+        ) {
+            throw new Error("El token contiene datos inválidos");
+        }
+
+        return {
+            cusuario: payload.sub,
+            roles: payload.roles
+        };
+    }
 }
