@@ -4,8 +4,12 @@ import { NegocioPostgresRepository } from "../../adapters/postgres/negocioPostgr
 import { TokenService } from "../../adapters/security/tokenService.js";
 import { RegistroNegocioController } from "../controllers/registroNegocioController.js";
 import { AuthMiddleware } from "../middlewares/authMiddleware.js";
+import { ListarMisNegociosUseCase } from "../../../application/use-cases/listarMisNegociosUseCase.js";
+import { ListarMisNegociosController } from "../controllers/listarMisNegociosController.js";
 
 const negocioRepository = new NegocioPostgresRepository();
+const listarMisNegociosUseCase = new ListarMisNegociosUseCase(negocioRepository);
+const listarMisNegociosController = new ListarMisNegociosController(listarMisNegociosUseCase);
 const tokenService = new TokenService();
 const registroNegocioUseCase = new RegistroNegocioUseCase(negocioRepository);
 const registroNegocioController = new RegistroNegocioController(registroNegocioUseCase);
@@ -18,4 +22,10 @@ negocioRoutes.post(
     "/",
     authMiddleware.autenticar,
     registroNegocioController.ejecutar
+);
+
+negocioRoutes.get(
+    "/mis-negocios",
+    authMiddleware.autenticar,
+    listarMisNegociosController.ejecutar
 );
