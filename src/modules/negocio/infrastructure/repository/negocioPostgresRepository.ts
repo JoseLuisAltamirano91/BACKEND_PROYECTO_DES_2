@@ -1,7 +1,7 @@
 import type { INegocio } from "../../domain/model/iNegocio";
 import {INegocioRepository} from "../../domain/repository/iNegocioRepository";
 import {NegocioModel} from "../model/negocioModel";
-import {INegocioDto} from "../../domain/dto/INegocioDto";
+import {INegocioDto} from "../../domain/dto/iNegocioDto";
 import {UsuarioRolModel} from "../../../usuario/infrastructure/model/usuarioRolModel";
 import {RolModel} from "../../../usuario/infrastructure/model/rolModel";
 import {sequelize} from "../../../../shared/infrastructure/config/sequelize";

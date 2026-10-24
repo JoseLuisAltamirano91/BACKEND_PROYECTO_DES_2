@@ -1,6 +1,6 @@
 import {INegocioRepository} from "../../domain/repository/iNegocioRepository";
 import {INegocio} from "../../domain/model/iNegocio";
-import {INegocioDto} from "../../domain/dto/INegocioDto";
+import {INegocioDto} from "../../domain/dto/iNegocioDto";
 
 
 export class RegistroNegocioUseCase {

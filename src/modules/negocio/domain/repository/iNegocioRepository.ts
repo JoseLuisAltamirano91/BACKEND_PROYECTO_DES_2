@@ -1,5 +1,5 @@
 import type { INegocio } from "../model/iNegocio";
-import {INegocioDto} from "../dto/INegocioDto";
+import {INegocioDto} from "../dto/iNegocioDto";
 
 export interface INegocioRepository {
     crear(

@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import {IUsuarioRepository} from "../../domain/repository/iUsuarioRepository";
-import {IRegistroUsuarioDto} from "../dto/IRegistroUsuarioDto";
+import {IRegistroUsuarioDto} from "../dto/iRegistroUsuarioDto";
 import {IPasswordService} from "../../../../shared/application/iPasswordService";
 
 
