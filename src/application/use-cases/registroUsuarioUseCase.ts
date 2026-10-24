@@ -24,8 +24,8 @@ export class RegistroUsuarioUseCase {
         if (existente) {
             throw new CorreoYaRegistradoError();
         }
-
-        const cusuario = randomUUID();
+        
+        const cusuario = randomUUID().replace(/-/g, "").toUpperCase();
         const passwordHash = await this.passwordService.generarHash(
             datos.password
         );
