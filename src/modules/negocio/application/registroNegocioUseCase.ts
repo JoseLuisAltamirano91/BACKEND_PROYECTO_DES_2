@@ -1,6 +1,7 @@
-import type { INegocio } from "../../domain/models/iNegocio.js";
-import type { IRegistroNegocio } from "../dtos/iRegistroNegocio.js";
-import type { INegocioRepository } from "../ports/iNegocioRepository.js";
+import {INegocioRepository} from "../domain/iNegocioRepository.js";
+import {IRegistroNegocio} from "./dtos/iRegistroNegocio.js";
+import {INegocio} from "../domain/iNegocio.js";
+
 
 export class RegistroNegocioUseCase {
     constructor(

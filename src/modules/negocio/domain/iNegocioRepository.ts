@@ -1,6 +1,6 @@
-import type { INegocio } from "../../domain/models/iNegocio.js";
-import type { IRegistroNegocio } from "../dtos/iRegistroNegocio.js";
-import type { IActualizarNegocio } from "../dtos/iActualizarNegocio.js";
+import type { INegocio } from "./iNegocio.js";
+import type { IRegistroNegocio } from "../application/dtos/iRegistroNegocio.js";
+import type { IActualizarNegocio } from "../application/dtos/iActualizarNegocio.js";
 
 export interface INegocioRepository {
     crear(
