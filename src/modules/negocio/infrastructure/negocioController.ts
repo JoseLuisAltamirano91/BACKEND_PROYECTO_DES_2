@@ -3,7 +3,7 @@ import type { ITokenPayload } from "../../../application/dtos/iTokenPayload.js";
 import { RegistroNegocioUseCase } from "../application/registroNegocioUseCase.js";
 import { ListarMisNegociosUseCase } from "../application/listarMisNegociosUseCase.js";
 import { ActualizarNegocioUseCase } from "../application/actualizarNegocioUseCase.js";
-import {IDatosNegocioDto} from "../application/dtos/iDatosNegocioDto";
+import {IDatosNegocio} from "../domain/iDatosNegocio.js";
 
 export class NegocioController {
     constructor(
@@ -113,7 +113,7 @@ export class NegocioController {
     private validarDatos(
         req: Request,
         res: Response
-    ): IDatosNegocioDto | null {
+    ): IDatosNegocio | null {
         const { nombre, descripcion, telefono, correo } = req.body ?? {};
 
         if (

@@ -1,6 +1,6 @@
 import {INegocioRepository} from "../domain/iNegocioRepository.js";
 import {INegocio} from "../domain/iNegocio.js";
-import {IDatosNegocioDto} from "./dtos/iDatosNegocioDto";
+import {IDatosNegocio} from "../domain/iDatosNegocio.js";
 
 
 export class RegistroNegocioUseCase {
@@ -10,7 +10,7 @@ export class RegistroNegocioUseCase {
 
     async ejecutar(
         cusuario: string,
-        datos: IDatosNegocioDto
+        datos: IDatosNegocio
     ): Promise<INegocio> {
         return this.negocioRepository.crear(cusuario, datos);
     }
