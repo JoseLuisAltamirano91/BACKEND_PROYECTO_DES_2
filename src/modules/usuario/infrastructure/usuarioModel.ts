@@ -1,6 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../../../config/sequelize.js";
-
+import {sequelize} from "../../../infrastructure/config/sequelize.js";
 export class UsuarioModel extends Model {
     declare cusuario: string;
     declare nombres: string;

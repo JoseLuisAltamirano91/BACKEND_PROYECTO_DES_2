@@ -1,12 +1,58 @@
 import type { Request, Response } from "express";
-import {RegistroUsuarioUseCase, CorreoYaRegistradoError} from "../../../application/use-cases/registroUsuarioUseCase.js";
+import {
+    CredencialesInvalidasError,
+    LoginUseCase
+} from "../application/loginUseCase.js";
+import {
+    CorreoYaRegistradoError,
+    RegistroUsuarioUseCase
+} from "../application/registroUsuarioUseCase.js";
 
-export class RegistroController {
+export class UsuarioController {
     constructor(
-        private readonly registroUsuarioUseCase: RegistroUsuarioUseCase
+        private readonly loginUseCase: LoginUseCase,
+        private readonly registroUseCase: RegistroUsuarioUseCase
     ) {}
 
-    ejecutar = async (req: Request, res: Response): Promise<void> => {
+    login = async (req: Request, res: Response): Promise<void> => {
+        const { correo, password } = req.body ?? {};
+
+        if (
+            typeof correo !== "string" ||
+            typeof password !== "string" ||
+            !correo.trim() ||
+            !password
+        ) {
+            res.status(400).json({
+                mensaje: "Correo y contraseña son obligatorios"
+            });
+            return;
+        }
+
+        try {
+            const resultado = await this.loginUseCase.ejecutar(
+                correo,
+                password
+            );
+
+            res.status(200).json(resultado);
+        } catch (error) {
+            if (error instanceof CredencialesInvalidasError) {
+                res.status(401).json({
+                    mensaje: error.message
+                });
+                return;
+            }
+
+            console.error("Error al iniciar sesión");
+
+            res.status(500).json({
+                mensaje: "No se pudo iniciar sesión"
+            });
+        }
+    };
+
+    registrar = async (req: Request, res: Response): Promise<void> => {
         const { nombres, apellidos, correo, password } = req.body ?? {};
 
         if (
@@ -54,7 +100,7 @@ export class RegistroController {
         }
 
         try {
-            const resultado = await this.registroUsuarioUseCase.ejecutar({
+            const resultado = await this.registroUseCase.ejecutar({
                 nombres,
                 apellidos,
                 correo,

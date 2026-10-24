@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import type { ITokenPayload } from "../../../application/dtos/iTokenPayload.js";
 import { RegistroNegocioUseCase } from "../application/registroNegocioUseCase.js";
 import { ListarMisNegociosUseCase } from "../application/listarMisNegociosUseCase.js";
 import { ActualizarNegocioUseCase } from "../application/actualizarNegocioUseCase.js";
 import {IDatosNegocio} from "../domain/iDatosNegocio.js";
+import {ITokenPayload} from "../../../shared/application/iTokenPayload.js";
 
 export class NegocioController {
     constructor(

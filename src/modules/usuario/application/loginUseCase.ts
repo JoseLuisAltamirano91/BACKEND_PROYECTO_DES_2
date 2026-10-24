@@ -1,7 +1,7 @@
-import type { IUsuario } from "../../domain/models/iUsuario.js";
-import type { IUsuarioRepository } from "../ports/iUsuarioRepository.js";
-import type { IPasswordService } from "../ports/iPasswordService.js";
-import type { ITokenService } from "../ports/iTokenService.js";
+import {IUsuario} from "../domain/iUsuario.js";
+import {IUsuarioRepository} from "../domain/iUsuarioRepository.js";
+import {IPasswordService} from "../../../shared/application/iPasswordService.js";
+import {ITokenService} from "../../../shared/application/iTokenService.js";
 
 export class CredencialesInvalidasError extends Error {
     constructor() {

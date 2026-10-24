@@ -1,7 +1,8 @@
 import { randomUUID } from "node:crypto";
-import type { IRegistroUsuario } from "../dtos/iRegistroUsuario.js";
-import type { IUsuarioRepository } from "../ports/iUsuarioRepository.js";
-import type { IPasswordService } from "../ports/iPasswordService.js";
+import {IUsuarioRepository} from "../domain/iUsuarioRepository.js";
+import {IRegistroUsuario} from "./iRegistroUsuario.js";
+import {IPasswordService} from "../../../shared/application/iPasswordService.js";
+
 
 export class CorreoYaRegistradoError extends Error {
     constructor() {

@@ -1,5 +1,6 @@
-import type { IUsuario } from "../../domain/models/iUsuario.js";
-import type { INuevoUsuario } from "../dtos/iNuevoUsuario.js";
+import {IUsuario} from "./iUsuario.js";
+import {INuevoUsuario} from "./iNuevoUsuario.js";
+
 
 export interface IUsuarioRepository {
     buscarPorCorreo(correo: string): Promise<IUsuario | null>;

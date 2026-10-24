@@ -1,23 +1,21 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../../../config/sequelize.js";
+import {sequelize} from "../../../infrastructure/config/sequelize.js";
 
-export class UsuarioRolModel extends Model {
-    declare cusuario: string;
+export class RolModel extends Model {
     declare crol: string;
+    declare nombre: string;
     declare activo: string | null;
 }
 
-UsuarioRolModel.init(
+RolModel.init(
     {
-        cusuario: {
-            type: DataTypes.STRING(50),
-            primaryKey: true,
-            allowNull: false
-        },
         crol: {
             type: DataTypes.DECIMAL(4, 0),
             primaryKey: true,
             allowNull: false
+        },
+        nombre: {
+            type: DataTypes.STRING(50)
         },
         activo: {
             type: DataTypes.DECIMAL(1, 0)
@@ -25,8 +23,8 @@ UsuarioRolModel.init(
     },
     {
         sequelize,
-        modelName: "UsuarioRol",
-        tableName: "usuariorol",
+        modelName: "Rol",
+        tableName: "rol",
         schema: "public",
         timestamps: false
     }

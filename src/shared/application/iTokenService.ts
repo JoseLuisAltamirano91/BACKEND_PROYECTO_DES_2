@@ -1,4 +1,4 @@
-import {ITokenPayload} from "../dtos/iTokenPayload.js";
+import {ITokenPayload} from "./iTokenPayload.js";
 
 export interface ITokenService {
     generar(payload: ITokenPayload): string;
