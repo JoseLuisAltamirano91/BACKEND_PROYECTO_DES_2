@@ -1,4 +1,4 @@
-export interface IDatosNegocio {
+export interface INegocioDto {
     nombre: string;
     descripcion?: string;
     telefono?: string;

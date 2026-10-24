@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { RegistroNegocioUseCase } from "../application/registroNegocioUseCase.js";
-import { ListarMisNegociosUseCase } from "../application/listarMisNegociosUseCase.js";
-import { ActualizarNegocioUseCase } from "../application/actualizarNegocioUseCase.js";
-import {IDatosNegocio} from "../domain/iDatosNegocio.js";
+import { RegistroNegocioUseCase } from "../application/useCase/registroNegocioUseCase";
+import { ListarMisNegociosUseCase } from "../application/useCase/listarMisNegociosUseCase";
+import { ActualizarNegocioUseCase } from "../application/useCase/actualizarNegocioUseCase";
+import {INegocioDto} from "../domain/dto/INegocioDto";
 import {ITokenPayload} from "../../../shared/application/iTokenPayload.js";
 
 export class NegocioController {
@@ -113,7 +113,7 @@ export class NegocioController {
     private validarDatos(
         req: Request,
         res: Response
-    ): IDatosNegocio | null {
+    ): INegocioDto | null {
         const { nombre, descripcion, telefono, correo } = req.body ?? {};
 
         if (

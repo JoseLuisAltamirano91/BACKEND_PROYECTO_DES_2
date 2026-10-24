@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
-import {IUsuarioRepository} from "../domain/iUsuarioRepository.js";
-import {IRegistroUsuario} from "./iRegistroUsuario.js";
-import {IPasswordService} from "../../../shared/application/iPasswordService.js";
+import {IUsuarioRepository} from "../../domain/repository/iUsuarioRepository";
+import {IRegistroUsuarioDto} from "../dto/IRegistroUsuarioDto";
+import {IPasswordService} from "../../../../shared/application/iPasswordService";
 
 
 export class CorreoYaRegistradoError extends Error {
@@ -17,7 +17,7 @@ export class RegistroUsuarioUseCase {
         private readonly passwordService: IPasswordService
     ) {}
 
-    async ejecutar(datos: IRegistroUsuario): Promise<{ cusuario: string }> {
+    async ejecutar(datos: IRegistroUsuarioDto): Promise<{ cusuario: string }> {
         const correo = datos.correo.trim().toLowerCase();
 
         const existente = await this.usuarioRepository.buscarPorCorreo(correo);

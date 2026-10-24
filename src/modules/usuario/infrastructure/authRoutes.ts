@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { LoginUseCase } from "../application/loginUseCase.js";
-import { RegistroUsuarioUseCase } from "../application/registroUsuarioUseCase.js";
-import { UsuarioPostgresRepository } from "./usuarioPostgresRepository.js";
+import { LoginUseCase } from "../application/useCase/loginUseCase";
+import { RegistroUsuarioUseCase } from "../application/useCase/registroUsuarioUseCase";
+import { UsuarioPostgresRepository } from "./repository/usuarioPostgresRepository";
 import { UsuarioController } from "./usuarioController.js";
 import {PasswordService} from "../../../shared/infrastructure/security/passwordService.js";
 import {TokenService} from "../../../shared/infrastructure/security/tokenService.js";

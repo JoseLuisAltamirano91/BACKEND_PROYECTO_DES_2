@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import {ITokenPayload} from "../../../shared/application/iTokenPayload.js";
+import {ITokenPayload} from "../../application/iTokenPayload.js";
 
 export function autorizarRoles(...rolesPermitidos: string[]) {
     return (_req: Request, res: Response, next: NextFunction): void => {

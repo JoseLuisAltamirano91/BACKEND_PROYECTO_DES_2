@@ -1,4 +1,4 @@
-import type { IRol } from "./iRol.js";
+import type { IRol } from "./iRol";
 
 export interface IUsuario {
     cusuario: string;

@@ -1,11 +1,11 @@
 import { Op, fn, col, where } from "sequelize";
-import {IUsuario} from "../domain/iUsuario.js";
-import {IUsuarioRepository} from "../domain/iUsuarioRepository.js";
-import {INuevoUsuario} from "../domain/iNuevoUsuario.js";
-import {UsuarioModel} from "./usuarioModel.js";
-import {UsuarioRolModel} from "./usuarioRolModel.js";
-import {RolModel} from "./rolModel.js";
-import {sequelize} from "../../../shared/infrastructure/config/sequelize.js";
+import {IUsuario} from "../../domain/model/iUsuario";
+import {IUsuarioRepository} from "../../domain/repository/iUsuarioRepository";
+import {INuevoUsuarioDto} from "../../domain/dto/iNuevoUsuarioDto";
+import {UsuarioModel} from "../model/usuarioModel";
+import {UsuarioRolModel} from "../model/usuarioRolModel";
+import {RolModel} from "../model/rolModel";
+import {sequelize} from "../../../../shared/infrastructure/config/sequelize";
 
 export class UsuarioPostgresRepository implements IUsuarioRepository {
 
@@ -64,7 +64,7 @@ export class UsuarioPostgresRepository implements IUsuarioRepository {
     }
 
 
-    async crear(usuario: INuevoUsuario): Promise<void> {
+    async crear(usuario: INuevoUsuarioDto): Promise<void> {
         await sequelize.transaction(async (transaction) => {
             const rol = await RolModel.findOne({
                 where: {

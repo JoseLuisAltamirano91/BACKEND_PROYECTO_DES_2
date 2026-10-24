@@ -1,10 +1,10 @@
-import type { INegocio } from "./iNegocio.js";
-import {IDatosNegocio} from "./iDatosNegocio.js";
+import type { INegocio } from "../model/iNegocio";
+import {INegocioDto} from "../dto/INegocioDto";
 
 export interface INegocioRepository {
     crear(
         cusuario: string,
-        datos: IDatosNegocio
+        datos: INegocioDto
     ): Promise<INegocio>;
 
     listarPorUsuario(cusuario: string): Promise<INegocio[]>;
@@ -12,6 +12,6 @@ export interface INegocioRepository {
     actualizar(
         cnegocio: number,
         cusuario: string,
-        datos: IDatosNegocio
+        datos: INegocioDto
     ): Promise<INegocio | null>;
 }

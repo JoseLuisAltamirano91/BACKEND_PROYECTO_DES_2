@@ -1,13 +1,13 @@
-import type { INegocio } from "../domain/iNegocio.js";
-import {INegocioRepository} from "../domain/iNegocioRepository.js";
-import {NegocioModel} from "./negocioModel.js";
-import {IDatosNegocio} from "../domain/iDatosNegocio.js";
-import {UsuarioRolModel} from "../../usuario/infrastructure/usuarioRolModel.js";
-import {RolModel} from "../../usuario/infrastructure/rolModel.js";
-import {sequelize} from "../../../shared/infrastructure/config/sequelize.js";
+import type { INegocio } from "../../domain/model/iNegocio";
+import {INegocioRepository} from "../../domain/repository/iNegocioRepository";
+import {NegocioModel} from "../model/negocioModel";
+import {INegocioDto} from "../../domain/dto/INegocioDto";
+import {UsuarioRolModel} from "../../../usuario/infrastructure/model/usuarioRolModel";
+import {RolModel} from "../../../usuario/infrastructure/model/rolModel";
+import {sequelize} from "../../../../shared/infrastructure/config/sequelize";
 
 export class NegocioPostgresRepository implements INegocioRepository {
-    async crear(cusuario: string, datos: IDatosNegocio): Promise<INegocio> {
+    async crear(cusuario: string, datos: INegocioDto): Promise<INegocio> {
         return sequelize.transaction(async (transaction) => {
             const rol = await RolModel.findOne({
                 where: {
@@ -110,7 +110,7 @@ export class NegocioPostgresRepository implements INegocioRepository {
     async actualizar(
         cnegocio: number,
         cusuario: string,
-        datos: IDatosNegocio
+        datos: INegocioDto
     ): Promise<INegocio | null> {
         const [, negocios] = await NegocioModel.update(
             {

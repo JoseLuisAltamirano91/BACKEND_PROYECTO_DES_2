@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import {ITokenService} from "../../../shared/application/iTokenService.js";
+import {ITokenService} from "../../application/iTokenService.js";
 
 export class AuthMiddleware {
     constructor(private readonly tokenService: ITokenService) {}

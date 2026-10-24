@@ -1,4 +1,4 @@
-export interface INuevoUsuario {
+export interface INuevoUsuarioDto {
     cusuario: string;
     nombres: string;
     apellidos: string;

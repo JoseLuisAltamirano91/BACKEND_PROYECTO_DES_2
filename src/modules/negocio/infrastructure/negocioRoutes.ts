@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { ListarMisNegociosUseCase } from "../application/listarMisNegociosUseCase.js";
-import { RegistroNegocioUseCase } from "../application/registroNegocioUseCase.js";
-import { ActualizarNegocioUseCase } from "../application/actualizarNegocioUseCase.js";
-import { NegocioPostgresRepository } from "./negocioPostgresRepository.js";
+import { ListarMisNegociosUseCase } from "../application/useCase/listarMisNegociosUseCase";
+import { RegistroNegocioUseCase } from "../application/useCase/registroNegocioUseCase";
+import { ActualizarNegocioUseCase } from "../application/useCase/actualizarNegocioUseCase";
+import { NegocioPostgresRepository } from "./repository/negocioPostgresRepository";
 import { NegocioController } from "./negocioController.js";
 import {AuthMiddleware} from "../../../shared/infrastructure/middlewares/authMiddleware.js";
 import {TokenService} from "../../../shared/infrastructure/security/tokenService.js";

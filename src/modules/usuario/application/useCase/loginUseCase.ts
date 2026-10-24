@@ -1,7 +1,7 @@
-import {IUsuario} from "../domain/iUsuario.js";
-import {IUsuarioRepository} from "../domain/iUsuarioRepository.js";
-import {IPasswordService} from "../../../shared/application/iPasswordService.js";
-import {ITokenService} from "../../../shared/application/iTokenService.js";
+import {IUsuario} from "../../domain/model/iUsuario";
+import {IUsuarioRepository} from "../../domain/repository/iUsuarioRepository";
+import {IPasswordService} from "../../../../shared/application/iPasswordService";
+import {ITokenService} from "../../../../shared/application/iTokenService";
 
 export class CredencialesInvalidasError extends Error {
     constructor() {

@@ -1,4 +1,4 @@
-export interface IRegistroUsuario {
+export interface IRegistroUsuarioDto {
     nombres: string;
     apellidos: string;
     correo: string;

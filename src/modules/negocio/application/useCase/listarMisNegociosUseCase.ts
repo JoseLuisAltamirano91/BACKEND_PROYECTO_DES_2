@@ -1,5 +1,5 @@
-import {INegocioRepository} from "../domain/iNegocioRepository.js";
-import {INegocio} from "../domain/iNegocio.js";
+import {INegocioRepository} from "../../domain/repository/iNegocioRepository";
+import {INegocio} from "../../domain/model/iNegocio";
 
 
 export class ListarMisNegociosUseCase {

@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import {IPasswordService} from "../../../shared/application/iPasswordService.js";
+import {IPasswordService} from "../../application/iPasswordService.js";
 
 export class PasswordService implements IPasswordService {
     async comparar(
