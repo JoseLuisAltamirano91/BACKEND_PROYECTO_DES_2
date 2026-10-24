@@ -1,8 +1,7 @@
 import express from "express";
 import cors from "cors";
-import {negocioRoutes} from "../../modules/negocio/infrastructure/negocioRoutes.js";
-import {authRoutes} from "../../modules/usuario/infrastructure/authRoutes.js";
-
+import {authRoutes} from "../../../modules/usuario/infrastructure/authRoutes.js";
+import {negocioRoutes} from "../../../modules/negocio/infrastructure/negocioRoutes.js";
 const app = express();
 
 app.use(cors());
