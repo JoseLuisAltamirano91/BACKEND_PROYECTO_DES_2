@@ -1,11 +1,10 @@
 import type { INegocio } from "./iNegocio.js";
-import type { IRegistroNegocio } from "../application/dtos/iRegistroNegocio.js";
-import type { IActualizarNegocio } from "../application/dtos/iActualizarNegocio.js";
+import type { IDatosNegocioDto } from "../application/dtos/iDatosNegocioDto";
 
 export interface INegocioRepository {
     crear(
         cusuario: string,
-        datos: IRegistroNegocio
+        datos: IDatosNegocioDto
     ): Promise<INegocio>;
 
     listarPorUsuario(cusuario: string): Promise<INegocio[]>;
@@ -13,6 +12,6 @@ export interface INegocioRepository {
     actualizar(
         cnegocio: number,
         cusuario: string,
-        datos: IActualizarNegocio
+        datos: IDatosNegocioDto
     ): Promise<INegocio | null>;
 }

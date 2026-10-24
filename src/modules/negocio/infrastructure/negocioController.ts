@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
 import type { ITokenPayload } from "../../../application/dtos/iTokenPayload.js";
-import type { IRegistroNegocio } from "../application/dtos/iRegistroNegocio.js";
 import { RegistroNegocioUseCase } from "../application/registroNegocioUseCase.js";
 import { ListarMisNegociosUseCase } from "../application/listarMisNegociosUseCase.js";
 import { ActualizarNegocioUseCase } from "../application/actualizarNegocioUseCase.js";
+import {IDatosNegocioDto} from "../application/dtos/iDatosNegocioDto";
 
 export class NegocioController {
     constructor(
@@ -113,7 +113,7 @@ export class NegocioController {
     private validarDatos(
         req: Request,
         res: Response
-    ): IRegistroNegocio | null {
+    ): IDatosNegocioDto | null {
         const { nombre, descripcion, telefono, correo } = req.body ?? {};
 
         if (

@@ -1,6 +1,5 @@
 import type { INegocio } from "../domain/iNegocio.js";
-import type { IRegistroNegocio } from "../application/dtos/iRegistroNegocio.js";
-import type { IActualizarNegocio } from "../application/dtos/iActualizarNegocio.js";
+import type { IDatosNegocioDto } from "../application/dtos/iDatosNegocioDto";
 import {INegocioRepository} from "../domain/iNegocioRepository.js";
 import {NegocioModel} from "./negocioModel.js";
 import {sequelize} from "../../../infrastructure/config/sequelize";
@@ -8,7 +7,7 @@ import {RolModel} from "../../../infrastructure/adapters/postgres/models/rolMode
 import {UsuarioRolModel} from "../../../infrastructure/adapters/postgres/models/usuarioRolModel";
 
 export class NegocioPostgresRepository implements INegocioRepository {
-    async crear(cusuario: string, datos: IRegistroNegocio): Promise<INegocio> {
+    async crear(cusuario: string, datos: IDatosNegocioDto): Promise<INegocio> {
         return sequelize.transaction(async (transaction) => {
             const rol = await RolModel.findOne({
                 where: {
@@ -111,7 +110,7 @@ export class NegocioPostgresRepository implements INegocioRepository {
     async actualizar(
         cnegocio: number,
         cusuario: string,
-        datos: IActualizarNegocio
+        datos: IDatosNegocioDto
     ): Promise<INegocio | null> {
         const [, negocios] = await NegocioModel.update(
             {
