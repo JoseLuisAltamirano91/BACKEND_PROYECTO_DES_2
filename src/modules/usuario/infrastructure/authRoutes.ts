@@ -3,10 +3,10 @@ import { LoginUseCase } from "../application/loginUseCase.js";
 import { RegistroUsuarioUseCase } from "../application/registroUsuarioUseCase.js";
 import { UsuarioPostgresRepository } from "./usuarioPostgresRepository.js";
 import { UsuarioController } from "./usuarioController.js";
-import { PasswordService } from "../../../infrastructure/adapters/security/passwordService.js";
-import { TokenService } from "../../../infrastructure/adapters/security/tokenService.js";
-import { AuthMiddleware } from "../../../infrastructure/http/middlewares/authMiddleware.js";
-import { autorizarRoles } from "../../../infrastructure/http/middlewares/roleMiddleware.js";
+import {PasswordService} from "../../../shared/infrastructure/security/passwordService.js";
+import {TokenService} from "../../../shared/infrastructure/security/tokenService.js";
+import {AuthMiddleware} from "../../../shared/infrastructure/middlewares/authMiddleware.js";
+import {autorizarRoles} from "../../../shared/infrastructure/middlewares/roleMiddleware.js";
 
 const usuarioRepository = new UsuarioPostgresRepository();
 const passwordService = new PasswordService();

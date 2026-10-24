@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "../../../infrastructure/config/sequelize.js";
+import {sequelize} from "../../../shared/infrastructure/config/sequelize.js";
 
 export class RolModel extends Model {
     declare crol: string;

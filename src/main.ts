@@ -1,9 +1,8 @@
 import "dotenv/config";
 import app from "./infrastructure/http/app.js";
-import {
-    sequelize,
-    verificarConexion
-} from "./infrastructure/config/sequelize.js";
+import {verificarConexion} from "./infrastructure/config/postgres.js";
+import {sequelize} from "./shared/infrastructure/config/sequelize.js";
+
 
 const port = Number(process.env.PORT ?? 3977);
 

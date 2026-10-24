@@ -5,7 +5,7 @@ import {INuevoUsuario} from "../domain/iNuevoUsuario.js";
 import {UsuarioModel} from "./usuarioModel.js";
 import {UsuarioRolModel} from "./usuarioRolModel.js";
 import {RolModel} from "./rolModel.js";
-import {sequelize} from "../../../infrastructure/config/sequelize.js";
+import {sequelize} from "../../../shared/infrastructure/config/sequelize.js";
 
 export class UsuarioPostgresRepository implements IUsuarioRepository {
 

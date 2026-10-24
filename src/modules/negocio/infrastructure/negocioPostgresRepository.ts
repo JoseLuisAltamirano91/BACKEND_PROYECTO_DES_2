@@ -1,10 +1,10 @@
 import type { INegocio } from "../domain/iNegocio.js";
 import {INegocioRepository} from "../domain/iNegocioRepository.js";
 import {NegocioModel} from "./negocioModel.js";
-import {sequelize} from "../../../infrastructure/config/sequelize";
 import {IDatosNegocio} from "../domain/iDatosNegocio.js";
 import {UsuarioRolModel} from "../../usuario/infrastructure/usuarioRolModel.js";
 import {RolModel} from "../../usuario/infrastructure/rolModel.js";
+import {sequelize} from "../../../shared/infrastructure/config/sequelize.js";
 
 export class NegocioPostgresRepository implements INegocioRepository {
     async crear(cusuario: string, datos: IDatosNegocio): Promise<INegocio> {

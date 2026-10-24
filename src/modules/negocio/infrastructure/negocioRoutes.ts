@@ -4,8 +4,8 @@ import { RegistroNegocioUseCase } from "../application/registroNegocioUseCase.js
 import { ActualizarNegocioUseCase } from "../application/actualizarNegocioUseCase.js";
 import { NegocioPostgresRepository } from "./negocioPostgresRepository.js";
 import { NegocioController } from "./negocioController.js";
-import { TokenService } from "../../../infrastructure/adapters/security/tokenService.js";
-import { AuthMiddleware } from "../../../infrastructure/http/middlewares/authMiddleware.js";
+import {AuthMiddleware} from "../../../shared/infrastructure/middlewares/authMiddleware.js";
+import {TokenService} from "../../../shared/infrastructure/security/tokenService.js";
 
 const negocioRepository = new NegocioPostgresRepository();
 
