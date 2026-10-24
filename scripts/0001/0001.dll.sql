@@ -1,6 +1,4 @@
-drop index INDPKROL;
-
-drop table ROL;
+DROP TABLE IF EXISTS ROL;
 
 /*==============================================================*/
 /* Table: ROL                                                   */
@@ -28,9 +26,7 @@ create unique index INDPKROL on ROL (
     );
 
 
-drop index INDPKUSUARIO;
-
-drop table USUARIO;
+DROP TABLE IF EXISTS USUARIO;
 
 /*==============================================================*/
 /* Table: USUARIO                                               */
@@ -62,9 +58,7 @@ create unique index INDPKUSUARIO on USUARIO (
     );
 
 
-drop index INDPKUSUARIOROL;
-
-drop table USUARIOROL;
+DROP TABLE IF EXISTS USUARIOROL;
 
 /*==============================================================*/
 /* Table: USUARIOROL                                            */
