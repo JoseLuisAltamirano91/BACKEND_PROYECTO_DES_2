@@ -1,6 +1,6 @@
-import {INegocioRepository} from "../../domain/repository/iNegocioRepository";
-import {INegocio} from "../../domain/model/iNegocio";
-import {INegocioDto} from "../../domain/dto/iNegocioDto";
+import {INegocioRepository} from "../../domain/repository/iNegocioRepository.js";
+import {INegocio} from "../../domain/model/iNegocio.js";
+import {INegocioDto} from "../../domain/dto/iNegocioDto.js";
 
 
 export class ActualizarNegocioUseCase {

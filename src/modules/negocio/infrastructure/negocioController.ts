@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { RegistroNegocioUseCase } from "../application/useCase/registroNegocioUseCase";
-import { ListarMisNegociosUseCase } from "../application/useCase/listarMisNegociosUseCase";
-import { ActualizarNegocioUseCase } from "../application/useCase/actualizarNegocioUseCase";
-import {INegocioDto} from "../domain/dto/iNegocioDto";
+import { RegistroNegocioUseCase } from "../application/useCase/registroNegocioUseCase.js";
+import { ListarMisNegociosUseCase } from "../application/useCase/listarMisNegociosUseCase.js";
+import { ActualizarNegocioUseCase } from "../application/useCase/actualizarNegocioUseCase.js";
+import {INegocioDto} from "../domain/dto/iNegocioDto.js";
 import {ITokenPayload} from "../../../shared/application/iTokenPayload.js";
 
 export class NegocioController {
