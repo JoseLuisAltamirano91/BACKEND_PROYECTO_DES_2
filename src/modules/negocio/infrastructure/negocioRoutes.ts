@@ -1,18 +1,14 @@
 import { Router } from "express";
-import { ListarMisNegociosUseCase } from "../application/useCase/listarMisNegociosUseCase.js";
-import { RegistroNegocioUseCase } from "../application/useCase/registroNegocioUseCase.js";
-import { ActualizarNegocioUseCase } from "../application/useCase/actualizarNegocioUseCase.js";
 import { NegocioPostgresRepository } from "./repository/negocioPostgresRepository.js";
 import { NegocioController } from "./negocioController.js";
 import {AuthMiddleware} from "../../../shared/infrastructure/middlewares/authMiddleware.js";
 import {TokenService} from "../../../shared/infrastructure/security/tokenService.js";
+import {NegocioUseCase} from "../application/useCase/negocioUseCase.js";
 
 const negocioRepository = new NegocioPostgresRepository();
 
 const negocioController = new NegocioController(
-    new RegistroNegocioUseCase(negocioRepository),
-    new ListarMisNegociosUseCase(negocioRepository),
-    new ActualizarNegocioUseCase(negocioRepository)
+    new NegocioUseCase(negocioRepository)
 );
 
 const authMiddleware = new AuthMiddleware(new TokenService());

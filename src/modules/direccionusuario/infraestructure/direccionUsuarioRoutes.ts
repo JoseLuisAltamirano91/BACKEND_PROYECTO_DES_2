@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { DireccionUsuarioUseCase } from "../application/useCase/DireccionUsuarioUseCase.js";
+import { DireccionUsuarioUseCase } from "../application/useCase/direccionUsuarioUseCase";
 import { DireccionUsarioPostgresRepository } from "./Repository/direccionUsarioPostgresRepository";
 import { DireccionUsuarioController } from "./DireccionUsuarioController.js";
 import { AuthMiddleware } from "../../../shared/infrastructure/middlewares/authMiddleware";

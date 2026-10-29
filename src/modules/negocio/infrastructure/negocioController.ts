@@ -1,16 +1,10 @@
 import type { Request, Response } from "express";
-import { RegistroNegocioUseCase } from "../application/useCase/registroNegocioUseCase.js";
-import { ListarMisNegociosUseCase } from "../application/useCase/listarMisNegociosUseCase.js";
-import { ActualizarNegocioUseCase } from "../application/useCase/actualizarNegocioUseCase.js";
 import {INegocioDto} from "../domain/dto/iNegocioDto.js";
 import {ITokenPayload} from "../../../shared/application/iTokenPayload.js";
+import {NegocioUseCase} from "../application/useCase/negocioUseCase.js";
 
 export class NegocioController {
-    constructor(
-        private readonly registroUseCase: RegistroNegocioUseCase,
-        private readonly listarUseCase: ListarMisNegociosUseCase,
-        private readonly actualizarUseCase: ActualizarNegocioUseCase
-    ) {}
+    constructor(private readonly negocioUseCase: NegocioUseCase) {}
 
     registrar = async (req: Request, res: Response): Promise<void> => {
         const usuario = this.obtenerUsuario(res);
@@ -20,7 +14,7 @@ export class NegocioController {
         if (!datos) return;
 
         try {
-            const negocio = await this.registroUseCase.ejecutar(
+            const negocio = await this.negocioUseCase.crear(
                 usuario.cusuario,
                 datos
             );
@@ -41,7 +35,7 @@ export class NegocioController {
         if (!usuario) return;
 
         try {
-            const negocios = await this.listarUseCase.ejecutar(
+            const negocios = await this.negocioUseCase.listarPorNegocio(
                 usuario.cusuario
             );
 
@@ -74,7 +68,7 @@ export class NegocioController {
         if (!datos) return;
 
         try {
-            const negocio = await this.actualizarUseCase.ejecutar(
+            const negocio = await this.negocioUseCase.actualizar(
                 Number(codigo),
                 usuario.cusuario,
                 datos
