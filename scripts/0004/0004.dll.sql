@@ -116,3 +116,47 @@ alter table USUARIOINTERES
     add constraint FKUSUARIOINTERESUSUARIO foreign key (CUSUARIO)
         references USUARIO (CUSUARIO)
         on delete restrict on update restrict;
+
+
+
+
+
+
+
+drop index INDPKPLAN;
+
+drop table PLAN;
+
+/*==============================================================*/
+/* Table: PLAN                                                  */
+/*==============================================================*/
+create table PLAN (
+                      CPLAN                NUMERIC(10)          not null,
+                      CUSUARIO             VARCHAR(50)          not null,
+                      NOMBRE               VARCHAR(150)         null,
+                      DESCRIPCION          VARCHAR(500)         null,
+                      FECHAINICIO          TIMESTAMP            null,
+                      FECHAFIN             TIMESTAMP            null,
+                      ESTADO               VARCHAR(20)          null,
+                      PUBLICO              NUMERIC(1)           null,
+                      FINGRESO             TIMESTAMP            null,
+                      FMODIFICACION        TIMESTAMP            null,
+                      CUSUARIOING          VARCHAR(50)          null,
+                      CUSUARIOMOD          VARCHAR(50)          null,
+                      constraint PK_PLAN primary key (CPLAN)
+);
+
+comment on table PLAN is
+'Guardar los planes del usuario';
+
+/*==============================================================*/
+/* Index: INDPKPLAN                                             */
+/*==============================================================*/
+create unique index INDPKPLAN on PLAN (
+                                       CPLAN
+    );
+
+alter table PLAN
+    add constraint PLANUSUARIO foreign key (CUSUARIO)
+        references USUARIO (CUSUARIO)
+        on delete restrict on update restrict;
