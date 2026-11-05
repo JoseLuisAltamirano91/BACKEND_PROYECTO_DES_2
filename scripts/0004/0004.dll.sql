@@ -38,6 +38,47 @@ alter table PREFERENCIAUSUARIO
 
 
 
+
+
+
+
+
+
+drop index INDPKINTERES;
+
+drop table INTERES;
+
+/*==============================================================*/
+/* Table: INTERES                                               */
+/*==============================================================*/
+create table INTERES (
+                         CINTERES             NUMERIC(5)           not null,
+                         NOMBRE               VARCHAR(100)         null,
+                         DESCRIPCION          VARCHAR(250)         null,
+                         ACTIVO               NUMERIC(1)           null,
+                         FINGRESO             TIMESTAMP            null,
+                         FMODIFICACION        TIMESTAMP            null,
+                         CUSUARIOING          VARCHAR(50)          null,
+                         CUSUARIOMOD          VARCHAR(50)          null,
+                         constraint PKINTERES primary key (CINTERES)
+);
+
+comment on table INTERES is
+'Tabla almacenará los tipos de actividades que pueden gustarle a un usuario.';
+
+/*==============================================================*/
+/* Index: INDPKINTERES                                          */
+/*==============================================================*/
+create unique index INDPKINTERES on INTERES (
+                                             CINTERES
+    );
+
+
+
+
+
+
+
 drop index INDPKUSUARIOINTERES;
 
 drop table USUARIOINTERES;

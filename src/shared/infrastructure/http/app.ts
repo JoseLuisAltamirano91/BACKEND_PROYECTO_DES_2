@@ -5,6 +5,7 @@ import {negocioRoutes} from "../../../modules/negocio/infrastructure/negocioRout
 import {direccionUsuarioRoutes} from "../../../modules/direccionusuario/infraestructure/direccionUsuarioRoutes.js";
 import {preferenciaUsuarioRoutes} from "../../../modules/preferenciaUsuario/infraestructure/preferenciaUsuarioRoutes.js";
 import {interesRoutes} from "../../../modules/intereses/infraestructure/interesRoutes.js";
+import {interesUsuarioRoutes} from "../../../modules/interesUsuario/infraestructure/interesUsuarioRoutes";
 const app = express();
 
 app.use(cors());
@@ -22,5 +23,6 @@ app.use("/api/negocios", negocioRoutes);
 app.use("/api/direcciones", direccionUsuarioRoutes);
 app.use("/api/preferencias", preferenciaUsuarioRoutes);
 app.use("/api/intereses", interesRoutes);
+app.use("/api/interes", interesUsuarioRoutes);
 
 export default app;
