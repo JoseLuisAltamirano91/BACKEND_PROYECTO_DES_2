@@ -34,3 +34,44 @@ alter table PREFERENCIAUSUARIO
     add constraint FKPREFERENCIAUSUARIOUSUARIO foreign key (CUSUARIO)
         references USUARIO (CUSUARIO)
         on delete restrict on update restrict;
+
+
+
+
+drop index INDPKUSUARIOINTERES;
+
+drop table USUARIOINTERES;
+
+/*==============================================================*/
+/* Table: USUARIOINTERES                                        */
+/*==============================================================*/
+create table USUARIOINTERES (
+                                CUSUARIO             VARCHAR(50)          not null,
+                                CINTERES             NUMERIC(5)           not null,
+                                FINGRESO             TIMESTAMP            null,
+                                FMODIFICACION        TIMESTAMP            null,
+                                CUSUARIOING          VARCHAR(50)          null,
+                                CUSUARIOMOD          VARCHAR(50)          null,
+                                constraint PKUSUARIOINTERES primary key (CUSUARIO, CINTERES)
+);
+
+comment on table USUARIOINTERES is
+'Permite almacenar los intereses de una persona.';
+
+/*==============================================================*/
+/* Index: INDPKUSUARIOINTERES                                   */
+/*==============================================================*/
+create unique index INDPKUSUARIOINTERES on USUARIOINTERES (
+                                                           CUSUARIO,
+                                                           CINTERES
+    );
+
+alter table USUARIOINTERES
+    add constraint FKUSUARIOINTERESINTERES foreign key (CINTERES)
+        references INTERES (CINTERES)
+        on delete restrict on update restrict;
+
+alter table USUARIOINTERES
+    add constraint FKUSUARIOINTERESUSUARIO foreign key (CUSUARIO)
+        references USUARIO (CUSUARIO)
+        on delete restrict on update restrict;
