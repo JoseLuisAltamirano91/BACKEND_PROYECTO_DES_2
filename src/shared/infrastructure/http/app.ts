@@ -8,6 +8,7 @@ import { preferenciaUsuarioRoutes } from "../../../modules/preferenciaUsuario/in
 import { interesRoutes } from "../../../modules/intereses/infraestructure/interesRoutes.js";
 import { interesUsuarioRoutes } from "../../../modules/interesUsuario/infraestructure/interesUsuarioRoutes.js";
 import planRoutes from "../../../modules/plan/infraestructure/planRoutes.js";
+import planParticipanteRoutes from "../../../modules/planParticipante/infraestructure/planParticipanteRoutes.js";
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/api/preferencias", preferenciaUsuarioRoutes);
 app.use("/api/intereses", interesRoutes);
 app.use("/api/interes", interesUsuarioRoutes);
 app.use("/api/planes", planRoutes);
+app.use("/api/plan-participantes", planParticipanteRoutes);
 
 export default app;

@@ -2,9 +2,13 @@
 import { IPlanRepository } from "../../domain/repository/iPlanRepository.js";
 import { IPlanDto } from "../../domain/dto/iPlanDto.js";
 import { IPlan } from "../../domain/model/iPlan.js";
+import { IPlanParticipanteRepository } from "../../../planParticipante/domain/repository/iPlanParticipanteRepository.js";
 
 export class PlanUseCase {
-    constructor(private readonly repository: IPlanRepository) {}
+    constructor(
+        private readonly repository: IPlanRepository,
+        private readonly participanteRepository: IPlanParticipanteRepository
+    ) {}
 
     async crear(cusuario: string, dto: IPlanDto): Promise<IPlan> {
         if (!dto.nombre?.trim()) throw new Error("El nombre del plan es obligatorio");
@@ -30,7 +34,19 @@ export class PlanUseCase {
             cusuariomod: null
         };
 
-        return this.repository.crear(plan);
+        const nuevoPlan = await this.repository.crear(plan);
+
+        await this.participanteRepository.crear({
+            cplan: nuevoPlan.cplan,
+            cusuario,
+            estado: "CONFIRMADO",
+            fingreso: new Date(),
+            fmodificacion: null,
+            cusuarioing: cusuario,
+            cusuariomod: null
+        });
+
+        return nuevoPlan;
     }
 
     async listarPorUsuario(cusuario: string): Promise<IPlan[]> {
