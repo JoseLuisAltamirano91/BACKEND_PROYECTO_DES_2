@@ -9,6 +9,7 @@ import { interesRoutes } from "../../../modules/intereses/infraestructure/intere
 import { interesUsuarioRoutes } from "../../../modules/interesUsuario/infraestructure/interesUsuarioRoutes.js";
 import planRoutes from "../../../modules/plan/infraestructure/planRoutes.js";
 import planParticipanteRoutes from "../../../modules/planParticipante/infraestructure/planParticipanteRoutes.js";
+import planActividadRoutes from "../../../modules/planActividad/infraestructure/planActividadRoutes.js";
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use("/api/intereses", interesRoutes);
 app.use("/api/interes", interesUsuarioRoutes);
 app.use("/api/planes", planRoutes);
 app.use("/api/plan-participantes", planParticipanteRoutes);
+app.use("/api/plan-actividades", planActividadRoutes);
 
 export default app;
