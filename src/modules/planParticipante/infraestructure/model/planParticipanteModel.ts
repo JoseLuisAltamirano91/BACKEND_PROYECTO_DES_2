@@ -1,6 +1,8 @@
 
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
+import {PlanModel} from "../../../plan/infraestructure/model/planModel";
+import {UsuarioModel} from "../../../usuario/infrastructure/model/usuarioModel";
 
 export class PlanParticipanteModel extends Model {
     declare cplan: number;
@@ -18,6 +20,9 @@ PlanParticipanteModel.init(
             type: DataTypes.DECIMAL(10, 0),
             primaryKey: true,
             allowNull: false,
+            references: { model: PlanModel, key: "cplan" },
+            onDelete: "RESTRICT",
+            onUpdate: "RESTRICT",
             get() {
                 const valor:any = this.getDataValue("cplan");
                 return valor == null ? valor : Number(valor);
@@ -26,7 +31,10 @@ PlanParticipanteModel.init(
         cusuario: {
             type: DataTypes.STRING(50),
             primaryKey: true,
-            allowNull: false
+            allowNull: false,
+            references: { model: UsuarioModel, key: "cusuario" },
+            onDelete: "RESTRICT",
+            onUpdate: "RESTRICT"
         },
         estado: { type: DataTypes.STRING(20), allowNull: false },
         fingreso: { type: DataTypes.DATE, allowNull: true },
@@ -36,7 +44,9 @@ PlanParticipanteModel.init(
     },
     {
         sequelize,
-        tableName: "planparticipante",
+        modelName: "PlanParticipante",
+        tableName: "PLANPARTICIPANTE",
+        schema: "public",
         timestamps: false
     }
 );

@@ -8,6 +8,11 @@ async function iniciar(): Promise<void> {
     try {
         await sequelize.authenticate();
         console.log("PostgreSQL conectado mediante Sequelize");
+        //
+        // console.log(
+        //     "Modelos registrados:",
+        //     sequelize.modelManager.models.map((modelo) => modelo.name)
+        // );
 
         await sequelize.sync();
         console.log("Tablas verificadas correctamente");

@@ -1,5 +1,7 @@
+
 import { DataTypes, Model } from "sequelize";
-import {sequelize} from "../../../../shared/infrastructure/config/sequelize";
+import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
+import {UsuarioModel} from "../../../usuario/infrastructure/model/usuarioModel.js";
 
 export class NegocioModel extends Model {
     declare cnegocio: number;
@@ -26,43 +28,26 @@ NegocioModel.init(
         },
         cusuario: {
             type: DataTypes.STRING(50),
-            allowNull: false
+            allowNull: false,
+            references: { model: UsuarioModel, key: "cusuario" },
+            onDelete: "RESTRICT",
+            onUpdate: "RESTRICT"
         },
-        nombre: {
-            type: DataTypes.STRING(100)
-        },
-        descripcion: {
-            type: DataTypes.STRING(150)
-        },
-        telefono: {
-            type: DataTypes.STRING(25)
-        },
-        correo: {
-            type: DataTypes.STRING(100)
-        },
-        activo: {
-            type: DataTypes.DECIMAL(1, 0)
-        },
-        fcreacion: {
-            type: DataTypes.DECIMAL(8, 0)
-        },
-        fingreso: {
-            type: DataTypes.DATE
-        },
-        fmodificacion: {
-            type: DataTypes.DATE
-        },
-        cusuarioing: {
-            type: DataTypes.STRING(50)
-        },
-        cusuariomod: {
-            type: DataTypes.STRING(50)
-        }
+        nombre: { type: DataTypes.STRING(100), allowNull: true },
+        descripcion: { type: DataTypes.STRING(150), allowNull: true },
+        telefono: { type: DataTypes.STRING(25), allowNull: true },
+        correo: { type: DataTypes.STRING(100), allowNull: true },
+        activo: { type: DataTypes.DECIMAL(1, 0), allowNull: true },
+        fcreacion: { type: DataTypes.DECIMAL(8, 0), allowNull: true },
+        fingreso: { type: DataTypes.DATE, allowNull: true },
+        fmodificacion: { type: DataTypes.DATE, allowNull: true },
+        cusuarioing: { type: DataTypes.STRING(50), allowNull: true },
+        cusuariomod: { type: DataTypes.STRING(50), allowNull: true }
     },
     {
         sequelize,
         modelName: "Negocio",
-        tableName: "negocio",
+        tableName: "NEGOCIO",
         schema: "public",
         timestamps: false
     }

@@ -1,11 +1,12 @@
+
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
 
 export class InteresModel extends Model {
     declare cinteres: number;
-    declare nombre: string;
+    declare nombre: string | null;
     declare descripcion: string | null;
-    declare activo: boolean;
+    declare activo: boolean | null;
     declare fingreso: Date | null;
     declare fmodificacion: Date | null;
     declare cusuarioing: string | null;
@@ -21,7 +22,7 @@ InteresModel.init(
         },
         nombre: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: true
         },
         descripcion: {
             type: DataTypes.STRING(250),
@@ -31,34 +32,22 @@ InteresModel.init(
             type: DataTypes.DECIMAL(1, 0),
             allowNull: true,
             get() {
-                const valor: number | null = this.getDataValue("activo");
-                return valor === null ? false : Number(valor) === 1;
+                const valor:any = this.getDataValue("activo");
+                return valor == null ? null : Number(valor) === 1;
             },
-            set(valor: boolean) {
-                this.setDataValue("activo", Number(valor));
+            set(valor: boolean | null) {
+                this.setDataValue("activo", valor === null ? null : Number(valor));
             }
         },
-        fingreso: {
-            type: DataTypes.DATE,
-            allowNull: true
-        },
-        fmodificacion: {
-            type: DataTypes.DATE,
-            allowNull: true
-        },
-        cusuarioing: {
-            type: DataTypes.STRING(50),
-            allowNull: true
-        },
-        cusuariomod: {
-            type: DataTypes.STRING(50),
-            allowNull: true
-        }
+        fingreso: { type: DataTypes.DATE, allowNull: true },
+        fmodificacion: { type: DataTypes.DATE, allowNull: true },
+        cusuarioing: { type: DataTypes.STRING(50), allowNull: true },
+        cusuariomod: { type: DataTypes.STRING(50), allowNull: true }
     },
     {
         sequelize,
         modelName: "Interes",
-        tableName: "interes",
+        tableName: "INTERES",
         schema: "public",
         timestamps: false
     }

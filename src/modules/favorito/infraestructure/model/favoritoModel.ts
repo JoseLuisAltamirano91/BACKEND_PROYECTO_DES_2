@@ -1,12 +1,13 @@
 
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
+import {UsuarioModel} from "../../../usuario/infrastructure/model/usuarioModel.js";
 
 export class FavoritoModel extends Model {
     declare cfavorito: number;
     declare cusuario: string;
     declare tipo: string;
-    declare creferencia: string;
+    declare creferencia: string | null;
     declare fingreso: Date | null;
     declare fmodificacion: Date | null;
     declare cusuarioing: string | null;
@@ -20,22 +21,19 @@ FavoritoModel.init(
             primaryKey: true,
             allowNull: false,
             get() {
-                const valor: any = this.getDataValue("cfavorito");
+                const valor:any = this.getDataValue("cfavorito");
                 return valor == null ? valor : Number(valor);
             }
         },
         cusuario: {
             type: DataTypes.STRING(50),
             allowNull: false,
-            references: {
-                model: "usuario",
-                key: "cusuario"
-            },
+            references: { model: UsuarioModel, key: "cusuario" },
             onDelete: "RESTRICT",
             onUpdate: "RESTRICT"
         },
         tipo: { type: DataTypes.STRING(50), allowNull: false },
-        creferencia: { type: DataTypes.STRING(50), allowNull: false },
+        creferencia: { type: DataTypes.STRING(50), allowNull: true },
         fingreso: { type: DataTypes.DATE, allowNull: true },
         fmodificacion: { type: DataTypes.DATE, allowNull: true },
         cusuarioing: { type: DataTypes.STRING(50), allowNull: true },
@@ -43,7 +41,9 @@ FavoritoModel.init(
     },
     {
         sequelize,
-        tableName: "favorito",
+        modelName: "Favorito",
+        tableName: "FAVORITO",
+        schema: "public",
         timestamps: false,
         indexes: [
             {

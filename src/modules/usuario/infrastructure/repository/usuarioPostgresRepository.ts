@@ -51,14 +51,14 @@ export class UsuarioPostgresRepository implements IUsuarioRepository {
 
         return {
             cusuario: usuario.cusuario,
-            nombres: usuario.nombres,
-            apellidos: usuario.apellidos,
-            correo: usuario.correo,
-            passwordHash: usuario.password,
+            nombres: usuario.nombres ?? "",
+            apellidos: usuario.apellidos ?? "",
+            correo: usuario.correo ?? "",
+            passwordHash: usuario.password ?? "",
             activo: Number(usuario.activo) === 1,
             roles: roles.map((rol) => ({
                 crol: Number(rol.crol),
-                nombre: rol.nombre
+                nombre: rol.nombre ?? ""
             }))
         };
     }
