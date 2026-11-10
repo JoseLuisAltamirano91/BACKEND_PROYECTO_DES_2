@@ -9,6 +9,9 @@ async function iniciar(): Promise<void> {
         await sequelize.authenticate();
         console.log("PostgreSQL conectado mediante Sequelize");
 
+        await sequelize.sync();
+        console.log("Tablas verificadas correctamente");
+
         app.listen(port, () => {
             console.log(`PlaningGo iniciado en http://localhost:${port}`);
         });
