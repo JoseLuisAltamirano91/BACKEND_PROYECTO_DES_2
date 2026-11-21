@@ -37,10 +37,6 @@ export class PlanUseCase {
         if (dto.cnegocio !== undefined && dto.cnegocio !== null &&
             (!Number.isInteger(dto.cnegocio) || dto.cnegocio <= 0))
             throw new Error("El negocio seleccionado no es valido");
-
-        if (dto.tipoplan !== undefined && dto.tipoplan !== null &&
-            !["EVENTO", "OFERTA"].includes(dto.tipoplan))
-            throw new Error("El tipo de plan debe ser EVENTO u OFERTA");
     }
 
     async crear(cusuario: string, dto: IPlanDto): Promise<IPlan> {
@@ -53,11 +49,6 @@ export class PlanUseCase {
             throw new Error("El campo publico debe ser 0 o 1");
 
         this.validarDatos(dto);
-
-        const tipoplan = dto.tipoplan ?? "EVENTO";
-
-        if (tipoplan === "OFERTA" && dto.cnegocio == null)
-            throw new Error("Una oferta debe estar asociada a un negocio");
 
         const plan: IPlan = {
             cplan: 0,
@@ -72,7 +63,6 @@ export class PlanUseCase {
             latitud: dto.latitud != null ? String(dto.latitud) : null,
             longitud: dto.longitud != null ? String(dto.longitud) : null,
             lugar: dto.lugar?.trim() || null,
-            tipoplan,
             estado: "PLANIFICADO",
             publico: dto.publico ?? 0,
             fingreso: new Date(),
@@ -86,17 +76,15 @@ export class PlanUseCase {
 
         const nuevoPlan = await this.repository.crear(plan);
 
-        if (tipoplan === "EVENTO") {
-            await this.participanteRepository.crear({
-                cplan: nuevoPlan.cplan,
-                cusuario,
-                estado: "CONFIRMADO",
-                fingreso: new Date(),
-                fmodificacion: null,
-                cusuarioing: cusuario,
-                cusuariomod: null
-            });
-        }
+        await this.participanteRepository.crear({
+            cplan: nuevoPlan.cplan,
+            cusuario,
+            estado: "CONFIRMADO",
+            fingreso: new Date(),
+            fmodificacion: null,
+            cusuarioing: cusuario,
+            cusuariomod: null
+        });
 
         return nuevoPlan;
     }
@@ -154,18 +142,11 @@ export class PlanUseCase {
 
         this.validarDatos(dto);
 
-        if (dto.tipoplan !== undefined && dto.tipoplan !== plan.tipoplan)
-            throw new Error("No se puede cambiar el tipo de plan despues de crearlo");
-
         const latitud = dto.latitud !== undefined ? dto.latitud : plan.latitud;
         const longitud = dto.longitud !== undefined ? dto.longitud : plan.longitud;
 
         if ((latitud == null) !== (longitud == null))
             throw new Error("La latitud y longitud deben registrarse juntas");
-
-        const cnegocio = dto.cnegocio !== undefined ? dto.cnegocio : plan.cnegocio;
-        if (plan.tipoplan === "OFERTA" && cnegocio == null)
-            throw new Error("Una oferta debe estar asociada a un negocio");
 
         return this.repository.actualizar(cplan, {
             ...(dto.nombre !== undefined && { nombre: dto.nombre.trim() }),

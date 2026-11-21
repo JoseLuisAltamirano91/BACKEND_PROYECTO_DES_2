@@ -15,7 +15,6 @@ export class PlanModel extends Model {
     declare latitud: string | null;
     declare longitud: string | null;
     declare lugar: string | null;
-    declare tipoplan: string | null;
     declare estado: string | null;
     declare publico: number | null;
     declare fingreso: Date | null;
@@ -52,7 +51,6 @@ PlanModel.init(
         latitud: { type: DataTypes.DECIMAL(10, 7), allowNull: true },
         longitud: { type: DataTypes.DECIMAL(10, 7), allowNull: true },
         lugar: { type: DataTypes.STRING(250), allowNull: true },
-        tipoplan: { type: DataTypes.STRING(20), allowNull: true },
         estado: { type: DataTypes.STRING(20), allowNull: true },
         publico: { type: DataTypes.DECIMAL(1, 0), allowNull: true },
         fingreso: { type: DataTypes.DATE, allowNull: true },

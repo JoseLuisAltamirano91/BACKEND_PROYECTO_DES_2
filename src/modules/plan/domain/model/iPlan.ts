@@ -11,7 +11,6 @@ export interface IPlan {
     latitud: string | null;
     longitud: string | null;
     lugar: string | null;
-    tipoplan: string | null;
     estado: string | null;
     publico: number | null;
     fingreso: Date | null;

@@ -10,7 +10,6 @@ export interface IPlanDto {
     latitud?: string | number | null;
     longitud?: string | number | null;
     lugar?: string | null;
-    tipoplan?: "EVENTO" | "OFERTA" | null;
     estado?: string | null;
     publico?: number | null;
 }
