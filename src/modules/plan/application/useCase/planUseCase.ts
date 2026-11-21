@@ -10,6 +10,39 @@ export class PlanUseCase {
         private readonly participanteRepository: IPlanParticipanteRepository
     ) {}
 
+    private validarDatos(dto: Partial<IPlanDto>): void {
+        if (dto.costoestimado !== undefined && dto.costoestimado !== null) {
+            if (String(dto.costoestimado).trim() === "" || !Number.isFinite(Number(dto.costoestimado)) || Number(dto.costoestimado) < 0)
+                throw new Error("El costo estimado debe ser un numero mayor o igual a cero");
+        }
+
+        if (dto.latitud !== undefined && dto.latitud !== null) {
+            if (String(dto.latitud).trim() === "" || !Number.isFinite(Number(dto.latitud)) || Number(dto.latitud) < -90 || Number(dto.latitud) > 90)
+                throw new Error("La latitud debe estar entre -90 y 90");
+        }
+
+        if (dto.longitud !== undefined && dto.longitud !== null) {
+            if (String(dto.longitud).trim() === "" || !Number.isFinite(Number(dto.longitud)) || Number(dto.longitud) < -180 || Number(dto.longitud) > 180)
+                throw new Error("La longitud debe estar entre -180 y 180");
+        }
+
+        if ((dto.latitud === null) !== (dto.longitud === null) &&
+            dto.latitud !== undefined && dto.longitud !== undefined)
+            throw new Error("La latitud y longitud deben registrarse juntas");
+
+        if (dto.cinteres !== undefined && dto.cinteres !== null &&
+            (!Number.isInteger(dto.cinteres) || dto.cinteres <= 0))
+            throw new Error("El interes seleccionado no es valido");
+
+        if (dto.cnegocio !== undefined && dto.cnegocio !== null &&
+            (!Number.isInteger(dto.cnegocio) || dto.cnegocio <= 0))
+            throw new Error("El negocio seleccionado no es valido");
+
+        if (dto.tipoplan !== undefined && dto.tipoplan !== null &&
+            !["EVENTO", "OFERTA"].includes(dto.tipoplan))
+            throw new Error("El tipo de plan debe ser EVENTO u OFERTA");
+    }
+
     async crear(cusuario: string, dto: IPlanDto): Promise<IPlan> {
         if (!dto.nombre?.trim()) throw new Error("El nombre del plan es obligatorio");
 
@@ -19,13 +52,27 @@ export class PlanUseCase {
         if (dto.publico !== undefined && dto.publico !== 0 && dto.publico !== 1)
             throw new Error("El campo publico debe ser 0 o 1");
 
+        this.validarDatos(dto);
+
+        const tipoplan = dto.tipoplan ?? "EVENTO";
+
+        if (tipoplan === "OFERTA" && dto.cnegocio == null)
+            throw new Error("Una oferta debe estar asociada a un negocio");
+
         const plan: IPlan = {
             cplan: 0,
             cusuario,
+            cinteres: dto.cinteres ?? null,
+            cnegocio: dto.cnegocio ?? null,
             nombre: dto.nombre.trim(),
             descripcion: dto.descripcion ?? null,
             fechainicio: dto.fechainicio ?? null,
             fechafin: dto.fechafin ?? null,
+            costoestimado: dto.costoestimado != null ? String(dto.costoestimado) : null,
+            latitud: dto.latitud != null ? String(dto.latitud) : null,
+            longitud: dto.longitud != null ? String(dto.longitud) : null,
+            lugar: dto.lugar?.trim() || null,
+            tipoplan,
             estado: "PLANIFICADO",
             publico: dto.publico ?? 0,
             fingreso: new Date(),
@@ -34,17 +81,22 @@ export class PlanUseCase {
             cusuariomod: null
         };
 
+        if ((plan.latitud === null) !== (plan.longitud === null))
+            throw new Error("La latitud y longitud deben registrarse juntas");
+
         const nuevoPlan = await this.repository.crear(plan);
 
-        await this.participanteRepository.crear({
-            cplan: nuevoPlan.cplan,
-            cusuario,
-            estado: "CONFIRMADO",
-            fingreso: new Date(),
-            fmodificacion: null,
-            cusuarioing: cusuario,
-            cusuariomod: null
-        });
+        if (tipoplan === "EVENTO") {
+            await this.participanteRepository.crear({
+                cplan: nuevoPlan.cplan,
+                cusuario,
+                estado: "CONFIRMADO",
+                fingreso: new Date(),
+                fmodificacion: null,
+                cusuarioing: cusuario,
+                cusuariomod: null
+            });
+        }
 
         return nuevoPlan;
     }
@@ -75,7 +127,6 @@ export class PlanUseCase {
 
     async listarPublicos(cusuario: string): Promise<IPlan[]> {
         const planes = await this.repository.listarPublicos();
-
         return planes.filter(plan => plan.cusuario !== cusuario);
     }
 
@@ -101,11 +152,38 @@ export class PlanUseCase {
         if (dto.publico !== undefined && dto.publico !== 0 && dto.publico !== 1)
             throw new Error("El campo publico debe ser 0 o 1");
 
+        this.validarDatos(dto);
+
+        if (dto.tipoplan !== undefined && dto.tipoplan !== plan.tipoplan)
+            throw new Error("No se puede cambiar el tipo de plan despues de crearlo");
+
+        const latitud = dto.latitud !== undefined ? dto.latitud : plan.latitud;
+        const longitud = dto.longitud !== undefined ? dto.longitud : plan.longitud;
+
+        if ((latitud == null) !== (longitud == null))
+            throw new Error("La latitud y longitud deben registrarse juntas");
+
+        const cnegocio = dto.cnegocio !== undefined ? dto.cnegocio : plan.cnegocio;
+        if (plan.tipoplan === "OFERTA" && cnegocio == null)
+            throw new Error("Una oferta debe estar asociada a un negocio");
+
         return this.repository.actualizar(cplan, {
             ...(dto.nombre !== undefined && { nombre: dto.nombre.trim() }),
             ...(dto.descripcion !== undefined && { descripcion: dto.descripcion }),
             ...(dto.fechainicio !== undefined && { fechainicio: dto.fechainicio }),
             ...(dto.fechafin !== undefined && { fechafin: dto.fechafin }),
+            ...(dto.cinteres !== undefined && { cinteres: dto.cinteres }),
+            ...(dto.cnegocio !== undefined && { cnegocio: dto.cnegocio }),
+            ...(dto.costoestimado !== undefined && {
+                costoestimado: dto.costoestimado === null ? null : String(dto.costoestimado)
+            }),
+            ...(dto.latitud !== undefined && {
+                latitud: dto.latitud === null ? null : String(dto.latitud)
+            }),
+            ...(dto.longitud !== undefined && {
+                longitud: dto.longitud === null ? null : String(dto.longitud)
+            }),
+            ...(dto.lugar !== undefined && { lugar: dto.lugar?.trim() || null }),
             ...(dto.estado !== undefined && { estado: dto.estado }),
             ...(dto.publico !== undefined && { publico: dto.publico }),
             fmodificacion: new Date(),

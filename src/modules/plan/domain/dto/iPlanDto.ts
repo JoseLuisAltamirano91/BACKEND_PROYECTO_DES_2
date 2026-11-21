@@ -4,6 +4,13 @@ export interface IPlanDto {
     descripcion?: string | null;
     fechainicio?: Date | null;
     fechafin?: Date | null;
+    cinteres?: number | null;
+    cnegocio?: number | null;
+    costoestimado?: string | number | null;
+    latitud?: string | number | null;
+    longitud?: string | number | null;
+    lugar?: string | null;
+    tipoplan?: "EVENTO" | "OFERTA" | null;
     estado?: string | null;
     publico?: number | null;
 }

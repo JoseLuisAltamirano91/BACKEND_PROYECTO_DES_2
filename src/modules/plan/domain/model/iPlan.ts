@@ -1,10 +1,17 @@
 export interface IPlan {
     cplan: number;
     cusuario: string;
+    cinteres: number | null;
+    cnegocio: number | null;
     nombre: string | null;
     descripcion: string | null;
     fechainicio: Date | null;
     fechafin: Date | null;
+    costoestimado: string | null;
+    latitud: string | null;
+    longitud: string | null;
+    lugar: string | null;
+    tipoplan: string | null;
     estado: string | null;
     publico: number | null;
     fingreso: Date | null;
