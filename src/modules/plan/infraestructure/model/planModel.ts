@@ -1,7 +1,7 @@
 
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
-import {UsuarioModel} from "../../../usuario/infrastructure/model/usuarioModel";
+import { UsuarioModel } from "../../../usuario/infrastructure/model/usuarioModel.js";
 
 export class PlanModel extends Model {
     declare cplan: number;
@@ -55,3 +55,8 @@ PlanModel.init(
         timestamps: false
     }
 );
+PlanModel.belongsTo(UsuarioModel, {
+    foreignKey: "cusuario",
+    targetKey: "cusuario",
+    as: "usuario"
+});

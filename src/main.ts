@@ -12,6 +12,8 @@ import { cargarPaises } from "./modules/geografico/infraestructure/seed/paisSeed
 import { cargarProvincias } from "./modules/geografico/infraestructure/seed/provinciaSeed";
 import { cargarCantones } from "./modules/geografico/infraestructure/seed/cantonSeed";
 import { cargarParroquias } from "./modules/geografico/infraestructure/seed/parroquiaSeed";
+import { cargarIntereses } from "./modules/intereses/infraestructure/seed/interesSeed";
+
 
 const port = Number(process.env.PORT ?? 3977);
 
@@ -30,6 +32,7 @@ async function iniciar(): Promise<void> {
         await cargarProvincias();
         await cargarCantones();
         await cargarParroquias();
+        await cargarIntereses();
         console.log("Catalogos geograficos cargados correctamente");
 
         app.listen(port, () => {

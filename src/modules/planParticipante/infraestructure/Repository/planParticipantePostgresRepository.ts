@@ -2,6 +2,7 @@
 import { IPlanParticipante } from "../../domain/model/iPlanParticipante.js";
 import { IPlanParticipanteRepository } from "../../domain/repository/iPlanParticipanteRepository.js";
 import { PlanParticipanteModel } from "../model/planParticipanteModel.js";
+import { UsuarioModel } from "../../../usuario/infrastructure/model/usuarioModel.js";
 
 export class PlanParticipantePostgresRepository implements IPlanParticipanteRepository {
 
@@ -13,9 +14,17 @@ export class PlanParticipantePostgresRepository implements IPlanParticipanteRepo
     async listarPorPlan(cplan: number): Promise<IPlanParticipante[]> {
         const participantes = await PlanParticipanteModel.findAll({
             where: { cplan },
+            include: [{
+                model: UsuarioModel,
+                as: "usuario",
+                attributes: ["nombres", "apellidos"]
+            }],
             order: [["fingreso", "ASC"]]
         });
-        return participantes.map(p => p.get({ plain: true }) as IPlanParticipante);
+
+        return participantes.map(p =>
+            p.get({ plain: true }) as IPlanParticipante
+        );
     }
 
     async buscar(cplan: number, cusuario: string): Promise<IPlanParticipante | null> {
@@ -40,5 +49,16 @@ export class PlanParticipantePostgresRepository implements IPlanParticipanteRepo
             where: { cplan, cusuario }
         });
         return eliminados > 0;
+    }
+
+    async listarPorUsuario(cusuario: string): Promise<IPlanParticipante[]> {
+        const participantes = await PlanParticipanteModel.findAll({
+            where: { cusuario },
+            order: [["cplan", "DESC"]]
+        });
+
+        return participantes.map(participante =>
+            participante.get({ plain: true }) as IPlanParticipante
+        );
     }
 }

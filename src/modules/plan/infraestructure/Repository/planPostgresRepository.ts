@@ -1,7 +1,7 @@
-
 import { IPlan } from "../../domain/model/iPlan.js";
 import { IPlanRepository } from "../../domain/repository/iPlanRepository.js";
 import { PlanModel } from "../model/planModel.js";
+import { UsuarioModel } from "../../../usuario/infrastructure/model/usuarioModel.js";
 
 export class PlanPostgresRepository implements IPlanRepository {
 
@@ -16,13 +16,40 @@ export class PlanPostgresRepository implements IPlanRepository {
     async listarPorUsuario(cusuario: string): Promise<IPlan[]> {
         const planes = await PlanModel.findAll({
             where: { cusuario },
+            include: [{
+                model: UsuarioModel,
+                as: "usuario",
+                attributes: ["nombres", "apellidos"]
+            }],
             order: [["cplan", "DESC"]]
         });
+
+        return planes.map(plan => plan.get({ plain: true }) as IPlan);
+    }
+
+    async listarPublicos(): Promise<IPlan[]> {
+        const planes = await PlanModel.findAll({
+            where: { publico: 1 },
+            include: [{
+                model: UsuarioModel,
+                as: "usuario",
+                attributes: ["nombres", "apellidos"]
+            }],
+            order: [["cplan", "DESC"]]
+        });
+
         return planes.map(plan => plan.get({ plain: true }) as IPlan);
     }
 
     async buscarPorId(cplan: number): Promise<IPlan | null> {
-        const plan = await PlanModel.findByPk(cplan);
+        const plan = await PlanModel.findByPk(cplan, {
+            include: [{
+                model: UsuarioModel,
+                as: "usuario",
+                attributes: ["nombres", "apellidos"]
+            }]
+        });
+
         return plan ? plan.get({ plain: true }) as IPlan : null;
     }
 

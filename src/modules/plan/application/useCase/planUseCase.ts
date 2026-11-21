@@ -50,7 +50,33 @@ export class PlanUseCase {
     }
 
     async listarPorUsuario(cusuario: string): Promise<IPlan[]> {
-        return this.repository.listarPorUsuario(cusuario);
+        const creados = await this.repository.listarPorUsuario(cusuario);
+        const participaciones = await this.participanteRepository.listarPorUsuario(cusuario);
+
+        const planes = new Map<number, IPlan>();
+
+        for (const plan of creados) {
+            planes.set(Number(plan.cplan), plan);
+        }
+
+        for (const participacion of participaciones) {
+            if (!["CONFIRMADO", "PENDIENTE"].includes(participacion.estado)) continue;
+
+            const cplan = Number(participacion.cplan);
+            if (planes.has(cplan)) continue;
+
+            const plan = await this.repository.buscarPorId(cplan);
+            if (plan) planes.set(cplan, plan);
+        }
+
+        return Array.from(planes.values())
+            .sort((a, b) => Number(b.cplan) - Number(a.cplan));
+    }
+
+    async listarPublicos(cusuario: string): Promise<IPlan[]> {
+        const planes = await this.repository.listarPublicos();
+
+        return planes.filter(plan => plan.cusuario !== cusuario);
     }
 
     async buscarPorId(cplan: number, cusuario: string): Promise<IPlan | null> {

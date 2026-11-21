@@ -69,4 +69,17 @@ export class PlanController {
             res.status(400).json({ mensaje: error.message });
         }
     };
+
+    listarPublicos = async (_req: Request, res: Response): Promise<void> => {
+        try {
+            const usuario = res.locals.usuario as ITokenPayload;
+            const planes = await this.planUseCase.listarPublicos(usuario.cusuario);
+
+            res.status(200).json(planes);
+        } catch (error) {
+            res.status(500).json({
+                mensaje: "No se pudieron consultar los planes públicos"
+            });
+        }
+    };
 }

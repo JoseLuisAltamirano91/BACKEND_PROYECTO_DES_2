@@ -20,7 +20,7 @@ const authMiddleware = new AuthMiddleware(new TokenService());
 
 router.post("/", authMiddleware.autenticar, controller.crear);
 router.get("/", authMiddleware.autenticar, controller.listarMisPlanes);
+router.get("/publicos", authMiddleware.autenticar, controller.listarPublicos);
 router.get("/:cplan", authMiddleware.autenticar, controller.buscarPorId);
 router.put("/:cplan", authMiddleware.autenticar, controller.actualizar);
-
 export default router;

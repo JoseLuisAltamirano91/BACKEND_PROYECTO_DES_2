@@ -1,4 +1,3 @@
-
 export interface IPlan {
     cplan: number;
     cusuario: string;
@@ -12,4 +11,9 @@ export interface IPlan {
     fmodificacion: Date | null;
     cusuarioing: string | null;
     cusuariomod: string | null;
+
+    usuario?: {
+        nombres: string | null;
+        apellidos: string | null;
+    } | null;
 }
