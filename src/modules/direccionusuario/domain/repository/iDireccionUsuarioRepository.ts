@@ -14,4 +14,9 @@ export interface IDireccionUsuarioRepository {
         cusuario: string,
         datos: IDireccionUsuarioDto
     ): Promise<IDireccionUsuario | null>;
+
+    eliminar(
+        cdireccion: number,
+        cusuario: string
+    ): Promise<boolean>;
 }

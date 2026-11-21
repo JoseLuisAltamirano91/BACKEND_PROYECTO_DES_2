@@ -20,3 +20,4 @@ direccionUsuarioRoutes.use(authMiddleware.autenticar);
 direccionUsuarioRoutes.post("/", direccionUsuarioController.crear);
 direccionUsuarioRoutes.get("/mis-direcciones", direccionUsuarioController.listarPorUsuario);
 direccionUsuarioRoutes.put("/:cdireccion", direccionUsuarioController.actualizar);
+direccionUsuarioRoutes.delete("/:cdireccion", direccionUsuarioController.eliminar);

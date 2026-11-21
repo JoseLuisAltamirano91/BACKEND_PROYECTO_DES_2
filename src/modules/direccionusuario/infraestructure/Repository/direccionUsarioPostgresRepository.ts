@@ -48,4 +48,12 @@ export class DireccionUsarioPostgresRepository implements IDireccionUsuarioRepos
         return direccion.get({plain:true}) as IDireccionUsuario;
     }
 
+    async eliminar(cdireccion: number, cusuario: string): Promise<boolean> {
+        const eliminados = await DireccionUsuarioModel.destroy({
+            where: {cdireccion, cusuario}
+        });
+
+        return eliminados > 0;
+    }
+
 }

@@ -1,7 +1,6 @@
-
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
-import {UsuarioModel} from "../../../usuario/infrastructure/model/usuarioModel.js";
+import { UsuarioModel } from "../../../usuario/infrastructure/model/usuarioModel.js";
 
 export class DireccionUsuarioModel extends Model {
     declare cdireccion: number;
@@ -13,6 +12,8 @@ export class DireccionUsuarioModel extends Model {
     declare parroquia: number | null;
     declare sector: number | null;
     declare direccion: string | null;
+    declare latitud: number | null;
+    declare longitud: number | null;
     declare principal: boolean | null;
     declare fingreso: Date | null;
     declare fmodificacion: Date | null;
@@ -42,6 +43,22 @@ DireccionUsuarioModel.init(
         parroquia: { type: DataTypes.DECIMAL(5, 0), allowNull: true },
         sector: { type: DataTypes.DECIMAL(5, 0), allowNull: true },
         direccion: { type: DataTypes.STRING(500), allowNull: true },
+        latitud: {
+            type: DataTypes.DECIMAL(10, 7),
+            allowNull: true,
+            get() {
+                const valor = this.getDataValue("latitud");
+                return valor == null ? null : Number(valor);
+            }
+        },
+        longitud: {
+            type: DataTypes.DECIMAL(10, 7),
+            allowNull: true,
+            get() {
+                const valor = this.getDataValue("longitud");
+                return valor == null ? null : Number(valor);
+            }
+        },
         principal: {
             type: DataTypes.DECIMAL(1, 0),
             allowNull: true,

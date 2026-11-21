@@ -120,6 +120,38 @@ export class DireccionUsuarioController {
         }
 
         if (
+            datos.latitud !== undefined &&
+            datos.latitud !== null &&
+            (!Number.isFinite(datos.latitud) || datos.latitud < -90 || datos.latitud > 90)
+        ) {
+            res.status(400).json({
+                mensaje: "La latitud debe ser un número entre -90 y 90"
+            });
+            return null;
+        }
+
+        if (
+            datos.longitud !== undefined &&
+            datos.longitud !== null &&
+            (!Number.isFinite(datos.longitud) || datos.longitud < -180 || datos.longitud > 180)
+        ) {
+            res.status(400).json({
+                mensaje: "La longitud debe ser un número entre -180 y 180"
+            });
+            return null;
+        }
+
+        if (
+            (datos.latitud === undefined) !== (datos.longitud === undefined) ||
+            (datos.latitud === null) !== (datos.longitud === null)
+        ) {
+            res.status(400).json({
+                mensaje: "La latitud y longitud deben enviarse conjuntamente"
+            });
+            return null;
+        }
+
+        if (
             datos.direccion !== undefined &&
             datos.direccion !== null &&
             (typeof datos.direccion !== "string" || datos.direccion.length > 500)
@@ -149,7 +181,43 @@ export class DireccionUsuarioController {
             parroquia: datos.parroquia,
             sector: datos.sector,
             direccion: datos.direccion,
-            principal: datos.principal
+            principal: datos.principal,
+            latitud: datos.latitud,
+            longitud: datos.longitud
         };
     }
+
+    eliminar = async (req: Request, res: Response): Promise<void> => {
+        const usuario = this.obtenerUsuario(res);
+        if (!usuario) return;
+
+        const codigo = req.params.cdireccion;
+
+        if (
+            typeof codigo !== "string" ||
+            !/^[1-9]\d*$/.test(codigo) ||
+            Number(codigo) > 99999
+        ) {
+            res.status(400).json({
+                mensaje: "El código de dirección debe ser un entero positivo válido"
+            });
+            return;
+        }
+
+        try {
+            await this.useCase.eliminar(Number(codigo), usuario.cusuario);
+
+            res.status(200).json({
+                mensaje: "Dirección eliminada correctamente"
+            });
+        } catch (error) {
+            const mensaje = error instanceof Error ? error.message : "";
+
+            res.status(mensaje === "Dirección no encontrada" ? 404 : 500).json({
+                mensaje: mensaje === "Dirección no encontrada"
+                    ? mensaje
+                    : "No se pudo eliminar la dirección"
+            });
+        }
+    };
 }

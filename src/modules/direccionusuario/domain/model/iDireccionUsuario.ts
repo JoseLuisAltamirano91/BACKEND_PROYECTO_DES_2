@@ -8,6 +8,8 @@ export interface IDireccionUsuario {
     parroquia: number | null;
     sector: number | null;
     direccion: string | null;
+    latitud: number | null;
+    longitud: number | null;
     principal: boolean | null;
     fingreso: Date | null;
     fmodificacion: Date | null;

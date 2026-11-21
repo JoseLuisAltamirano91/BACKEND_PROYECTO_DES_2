@@ -7,4 +7,6 @@ export interface IDireccionUsuarioDto {
     sector?: number | null;
     direccion?: string | null;
     principal?: boolean | null;
+    latitud?: number | null;
+    longitud?: number | null;
 }
