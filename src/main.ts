@@ -1,6 +1,17 @@
 import "dotenv/config";
 import { sequelize } from "./shared/infrastructure/config/sequelize.js";
 import app from "./shared/infrastructure/http/app.js";
+import { crearRestriccionesGeograficas } from "./shared/infrastructure/config/restriccionesGeograficas.js";
+
+import "./modules/geografico/infraestructure/model/paisModel";
+import "./modules/geografico/infraestructure/model/provinciaModel";
+import "./modules/geografico/infraestructure/model/cantonModel";
+import "./modules/geografico/infraestructure/model/parroquiaModel";
+
+import { cargarPaises } from "./modules/geografico/infraestructure/seed/paisSeed";
+import { cargarProvincias } from "./modules/geografico/infraestructure/seed/provinciaSeed";
+import { cargarCantones } from "./modules/geografico/infraestructure/seed/cantonSeed";
+import { cargarParroquias } from "./modules/geografico/infraestructure/seed/parroquiaSeed";
 
 const port = Number(process.env.PORT ?? 3977);
 
@@ -8,14 +19,18 @@ async function iniciar(): Promise<void> {
     try {
         await sequelize.authenticate();
         console.log("PostgreSQL conectado mediante Sequelize");
-        //
-        // console.log(
-        //     "Modelos registrados:",
-        //     sequelize.modelManager.models.map((modelo) => modelo.name)
-        // );
 
         await sequelize.sync();
         console.log("Tablas verificadas correctamente");
+
+        await crearRestriccionesGeograficas();
+        console.log("Restricciones geograficas verificadas correctamente");
+
+        await cargarPaises();
+        await cargarProvincias();
+        await cargarCantones();
+        await cargarParroquias();
+        console.log("Catalogos geograficos cargados correctamente");
 
         app.listen(port, () => {
             console.log(`PlaningGo iniciado en http://localhost:${port}`);
