@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { GeograficoPostgresRepository } from "./Repository/geograficoPostgresRepository";
-import { GeograficoUseCase } from "../application/useCase/geograficoUseCase";
-import { GeograficoController } from "./geograficoController";
+import { GeograficoPostgresRepository } from "./Repository/geograficoPostgresRepository.js";
+import { GeograficoUseCase } from "../application/useCase/geograficoUseCase.js";
+import { GeograficoController } from "./geograficoController.js";
 
 const router = Router();
 

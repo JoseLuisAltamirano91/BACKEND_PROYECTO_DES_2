@@ -1,4 +1,4 @@
-import { PaisModel } from "../model/paisModel";
+import { PaisModel } from "../model/paisModel.js";
 
 export async function cargarPaises(): Promise<void> {
     await PaisModel.findOrCreate({

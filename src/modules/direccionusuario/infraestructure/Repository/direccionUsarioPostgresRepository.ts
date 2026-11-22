@@ -2,7 +2,7 @@
 import {IDireccionUsuarioRepository} from "../../domain/repository/iDireccionUsuarioRepository.js";
 import {IDireccionUsuarioDto} from "../../domain/dto/iDireccionUsuarioDto.js";
 import {IDireccionUsuario} from "../../domain/model/iDireccionUsuario.js";
-import {DireccionUsuarioModel} from "../model/direccionUsuarioModel";
+import {DireccionUsuarioModel} from "../model/direccionUsuarioModel.js";
 
 export class DireccionUsarioPostgresRepository implements IDireccionUsuarioRepository{
 

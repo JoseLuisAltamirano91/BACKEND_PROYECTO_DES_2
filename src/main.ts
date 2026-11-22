@@ -6,16 +6,16 @@ import mongoose from "mongoose";
 import app from "./shared/infrastructure/http/app.js";
 import { crearRestriccionesGeograficas } from "./shared/infrastructure/config/restriccionesGeograficas.js";
 
-import "./modules/geografico/infraestructure/model/paisModel";
-import "./modules/geografico/infraestructure/model/provinciaModel";
-import "./modules/geografico/infraestructure/model/cantonModel";
-import "./modules/geografico/infraestructure/model/parroquiaModel";
+import "./modules/geografico/infraestructure/model/paisModel.js";
+import "./modules/geografico/infraestructure/model/provinciaModel.js";
+import "./modules/geografico/infraestructure/model/cantonModel.js";
+import "./modules/geografico/infraestructure/model/parroquiaModel.js";
 
-import { cargarPaises } from "./modules/geografico/infraestructure/seed/paisSeed";
-import { cargarProvincias } from "./modules/geografico/infraestructure/seed/provinciaSeed";
-import { cargarCantones } from "./modules/geografico/infraestructure/seed/cantonSeed";
-import { cargarParroquias } from "./modules/geografico/infraestructure/seed/parroquiaSeed";
-import { cargarIntereses } from "./modules/intereses/infraestructure/seed/interesSeed";
+import { cargarPaises } from "./modules/geografico/infraestructure/seed/paisSeed.js";
+import { cargarProvincias } from "./modules/geografico/infraestructure/seed/provinciaSeed.js";
+import { cargarCantones } from "./modules/geografico/infraestructure/seed/cantonSeed.js";
+import { cargarParroquias } from "./modules/geografico/infraestructure/seed/parroquiaSeed.js";
+import { cargarIntereses } from "./modules/intereses/infraestructure/seed/interesSeed.js";
 
 const port = Number(process.env.PORT ?? 3977);
 

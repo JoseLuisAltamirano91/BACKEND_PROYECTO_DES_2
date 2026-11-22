@@ -1,11 +1,11 @@
 import { Op, fn, col, where } from "sequelize";
-import {IUsuario} from "../../domain/model/iUsuario";
-import {IUsuarioRepository} from "../../domain/repository/iUsuarioRepository";
-import {INuevoUsuarioDto} from "../../domain/dto/iNuevoUsuarioDto";
-import {UsuarioModel} from "../model/usuarioModel";
-import {UsuarioRolModel} from "../model/usuarioRolModel";
-import {RolModel} from "../model/rolModel";
-import {sequelize} from "../../../../shared/infrastructure/config/sequelize";
+import {IUsuario} from "../../domain/model/iUsuario.js";
+import {IUsuarioRepository} from "../../domain/repository/iUsuarioRepository.js";
+import {INuevoUsuarioDto} from "../../domain/dto/iNuevoUsuarioDto.js";
+import {UsuarioModel} from "../model/usuarioModel.js";
+import {UsuarioRolModel} from "../model/usuarioRolModel.js";
+import {RolModel} from "../model/rolModel.js";
+import {sequelize} from "../../../../shared/infrastructure/config/sequelize.js";
 
 export class UsuarioPostgresRepository implements IUsuarioRepository {
 

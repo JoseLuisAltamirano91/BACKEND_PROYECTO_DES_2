@@ -1,4 +1,4 @@
-import { ProvinciaModel } from "../model/provinciaModel";
+import { ProvinciaModel } from "../model/provinciaModel.js";
 
 export async function cargarProvincias(): Promise<void> {
     const provincias = [

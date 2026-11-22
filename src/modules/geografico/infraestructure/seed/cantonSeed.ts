@@ -1,4 +1,4 @@
-import { CantonModel } from "../model/cantonModel";
+import { CantonModel } from "../model/cantonModel.js";
 
 // Catálogo histórico DPA proporcionado; excluye zonas no delimitadas (90).
 export async function cargarCantones(): Promise<void> {

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { DireccionUsuarioUseCase } from "../application/useCase/direccionUsuarioUseCase";
-import { DireccionUsarioPostgresRepository } from "./Repository/direccionUsarioPostgresRepository";
+import { DireccionUsuarioUseCase } from "../application/useCase/direccionUsuarioUseCase.js";
+import { DireccionUsarioPostgresRepository } from "./Repository/direccionUsarioPostgresRepository.js";
 import { DireccionUsuarioController } from "./DireccionUsuarioController.js";
-import { AuthMiddleware } from "../../../shared/infrastructure/middlewares/authMiddleware";
-import { TokenService } from "../../../shared/infrastructure/security/tokenService";
+import { AuthMiddleware } from "../../../shared/infrastructure/middlewares/authMiddleware.js";
+import { TokenService } from "../../../shared/infrastructure/security/tokenService.js";
 
 const direccionUsuarioRepository = new DireccionUsarioPostgresRepository();
 

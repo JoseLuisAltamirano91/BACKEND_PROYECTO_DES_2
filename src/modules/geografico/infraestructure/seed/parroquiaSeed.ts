@@ -1,4 +1,4 @@
-import { ParroquiaModel } from "../model/parroquiaModel";
+import { ParroquiaModel } from "../model/parroquiaModel.js";
 
 // Catálogo histórico DPA proporcionado; excluye zonas no delimitadas (90).
 export async function cargarParroquias(): Promise<void> {

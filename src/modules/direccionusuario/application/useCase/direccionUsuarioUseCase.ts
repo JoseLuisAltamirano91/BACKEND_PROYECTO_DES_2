@@ -1,5 +1,5 @@
-import { IDireccionUsuarioRepository } from "../../domain/repository/iDireccionUsuarioRepository";
-import { IDireccionUsuarioDto } from "../../domain/dto/iDireccionUsuarioDto";
+import { IDireccionUsuarioRepository } from "../../domain/repository/iDireccionUsuarioRepository.js";
+import { IDireccionUsuarioDto } from "../../domain/dto/iDireccionUsuarioDto.js";
 
 export class DireccionUsuarioUseCase {
     constructor(private readonly repository: IDireccionUsuarioRepository) {}

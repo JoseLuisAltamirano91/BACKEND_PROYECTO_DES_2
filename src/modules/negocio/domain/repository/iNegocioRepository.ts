@@ -1,5 +1,5 @@
-import type { INegocio } from "../model/iNegocio";
-import {INegocioDto} from "../dto/iNegocioDto";
+import type { INegocio } from "../model/iNegocio.js";
+import {INegocioDto} from "../dto/iNegocioDto.js";
 
 export interface INegocioRepository {
     crear(

@@ -1,5 +1,5 @@
 import type { IDetallePlan } from "../model/iDetallePlan.js";
-import type { IDetallePlanDto } from "../dto/iDetallePlanDto";
+import type { IDetallePlanDto } from "../dto/iDetallePlanDto.js";
 
 export interface IDetallePlanRepository {
     crear(cplan: number, datos: IDetallePlanDto): Promise<IDetallePlan>;

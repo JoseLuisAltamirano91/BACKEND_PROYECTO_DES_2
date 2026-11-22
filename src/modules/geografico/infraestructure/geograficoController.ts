@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { GeograficoUseCase } from "../application/useCase/geograficoUseCase";
+import { GeograficoUseCase } from "../application/useCase/geograficoUseCase.js";
 
 export class GeograficoController {
 

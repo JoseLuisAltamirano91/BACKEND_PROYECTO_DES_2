@@ -1,5 +1,5 @@
-import { IGeograficoRepository } from "../../domain/repository/IGeograficoRepository";
-import { Pais, Provincia, Canton, Parroquia } from "../../domain/model/geografico";
+import { IGeograficoRepository } from "../../domain/repository/IGeograficoRepository.js";
+import { Pais, Provincia, Canton, Parroquia } from "../../domain/model/geografico.js";
 
 export class GeograficoUseCase {
 

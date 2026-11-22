@@ -1,5 +1,4 @@
-import type { IInteresUsuario } from "../model/iInteresUsuario";
-import type { IInteresUsuarioDto } from "../dto/iInteresUsuarioDto";
+import type { IInteresUsuario } from "../model/iInteresUsuario.js";
 
 export interface IInteresUsuarioRepository {
 

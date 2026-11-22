@@ -2,11 +2,11 @@ import type { Request, Response } from "express";
 import {
     CredencialesInvalidasError,
     LoginUseCase
-} from "../application/useCase/loginUseCase";
+} from "../application/useCase/loginUseCase.js";
 import {
     CorreoYaRegistradoError,
     RegistroUsuarioUseCase
-} from "../application/useCase/registroUsuarioUseCase";
+} from "../application/useCase/registroUsuarioUseCase.js";
 
 export class UsuarioController {
     constructor(

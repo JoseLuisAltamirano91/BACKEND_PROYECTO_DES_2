@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import type { IDireccionUsuarioDto } from "../domain/dto/iDireccionUsuarioDto.js";
 import type { ITokenPayload } from "../../../shared/application/iTokenPayload.js";
-import {DireccionUsuarioUseCase} from "../application/useCase/direccionUsuarioUseCase";
+import {DireccionUsuarioUseCase} from "../application/useCase/direccionUsuarioUseCase.js";
 
 export class DireccionUsuarioController {
     constructor(private readonly useCase: DireccionUsuarioUseCase) {}

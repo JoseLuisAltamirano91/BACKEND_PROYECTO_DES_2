@@ -1,9 +1,9 @@
-import { IGeograficoRepository } from "../../domain/repository/IGeograficoRepository";
-import { Pais, Provincia, Canton, Parroquia } from "../../domain/model/geografico";
-import { PaisModel } from "../model/paisModel";
-import { ProvinciaModel } from "../model/provinciaModel";
-import { CantonModel } from "../model/cantonModel";
-import { ParroquiaModel } from "../model/parroquiaModel";
+import { IGeograficoRepository } from "../../domain/repository/IGeograficoRepository.js";
+import { Pais, Provincia, Canton, Parroquia } from "../../domain/model/geografico.js";
+import { PaisModel } from "../model/paisModel.js";
+import { ProvinciaModel } from "../model/provinciaModel.js";
+import { CantonModel } from "../model/cantonModel.js";
+import { ParroquiaModel } from "../model/parroquiaModel.js";
 
 export class GeograficoPostgresRepository implements IGeograficoRepository {
 

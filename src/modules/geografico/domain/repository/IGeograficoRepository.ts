@@ -1,4 +1,4 @@
-import { Pais, Provincia, Canton, Parroquia } from "../model/geografico";
+import { Pais, Provincia, Canton, Parroquia } from "../model/geografico.js";
 
 export interface IGeograficoRepository {
     listarPaises(): Promise<Pais[]>;

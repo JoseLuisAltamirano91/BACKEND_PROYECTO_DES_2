@@ -1,5 +1,5 @@
-import {IUsuario} from "../model/iUsuario";
-import {INuevoUsuarioDto} from "../dto/iNuevoUsuarioDto";
+import {IUsuario} from "../model/iUsuario.js";
+import {INuevoUsuarioDto} from "../dto/iNuevoUsuarioDto.js";
 
 
 export interface IUsuarioRepository {
