@@ -10,7 +10,9 @@ import { interesUsuarioRoutes } from "../../../modules/interesUsuario/infraestru
 import planRoutes from "../../../modules/plan/infraestructure/planRoutes.js";
 import planParticipanteRoutes from "../../../modules/planParticipante/infraestructure/planParticipanteRoutes.js";
 import favoritoRoutes from "../../../modules/favorito/infraestructure/favoritoRoutes.js";
-import geograficoRoutes from "../../../modules/geografico/infraestructure/geograficoRoutes";
+import geograficoRoutes from "../../../modules/geografico/infraestructure/geograficoRoutes.js";
+import detallePlanRoutes from "../../../modules/detallePlan/infraestructure/detallePlanRoutes.js";
+
 const app = express();
 
 app.use(cors());
@@ -33,5 +35,6 @@ app.use("/api/planes", planRoutes);
 app.use("/api/plan-participantes", planParticipanteRoutes);
 app.use("/api/favoritos", favoritoRoutes);
 app.use("/api/geografico", geograficoRoutes);
+app.use("/api/detalle-planes", detallePlanRoutes);
 
 export default app;

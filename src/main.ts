@@ -1,5 +1,8 @@
+
 import "dotenv/config";
 import { sequelize } from "./shared/infrastructure/config/sequelize.js";
+import { conectarMongoDB } from "./shared/infrastructure/config/mongoose.js";
+import mongoose from "mongoose";
 import app from "./shared/infrastructure/http/app.js";
 import { crearRestriccionesGeograficas } from "./shared/infrastructure/config/restriccionesGeograficas.js";
 
@@ -13,7 +16,6 @@ import { cargarProvincias } from "./modules/geografico/infraestructure/seed/prov
 import { cargarCantones } from "./modules/geografico/infraestructure/seed/cantonSeed";
 import { cargarParroquias } from "./modules/geografico/infraestructure/seed/parroquiaSeed";
 import { cargarIntereses } from "./modules/intereses/infraestructure/seed/interesSeed";
-
 
 const port = Number(process.env.PORT ?? 3977);
 
@@ -35,11 +37,14 @@ async function iniciar(): Promise<void> {
         await cargarIntereses();
         console.log("Catalogos geograficos cargados correctamente");
 
+        await conectarMongoDB();
+
         app.listen(port, () => {
             console.log(`PlaningGo iniciado en http://localhost:${port}`);
         });
     } catch (error) {
         console.error("No se pudo iniciar PlaningGo:", error);
+        await mongoose.disconnect();
         await sequelize.close();
         process.exitCode = 1;
     }
