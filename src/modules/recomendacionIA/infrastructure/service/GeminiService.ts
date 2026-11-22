@@ -20,7 +20,7 @@ export class GeminiService {
         }
 
         const respuesta = await this.cliente.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-3.1-flash-lite",
             contents: consulta,
             config: {
                 temperature: 0.3

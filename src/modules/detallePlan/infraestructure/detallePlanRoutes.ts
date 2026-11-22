@@ -3,7 +3,7 @@ import { Router } from "express";
 import { DetallePlanController } from "./detallePlanController.js";
 import { DetallePlanUseCase } from "../application/useCase/detallePlanUseCase.js";
 import { DetallePlanMongoRepository } from "./Repository/detallePlanMongoRepository.js";
-import { PlanPostgresRepository } from "../../plan/infraestructure/Repository/planPostgresRepository.js";
+import { PlanPostgresRepository } from "../../plan/infraestructure/repository/planPostgresRepository.js";
 import { AuthMiddleware } from "../../../shared/infrastructure/middlewares/authMiddleware.js";
 import { TokenService } from "../../../shared/infrastructure/security/tokenService.js";
 

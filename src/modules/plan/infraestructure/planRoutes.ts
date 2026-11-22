@@ -2,7 +2,7 @@
 import { Router } from "express";
 import { PlanController } from "./planController.js";
 import { PlanUseCase } from "../application/useCase/planUseCase.js";
-import {PlanPostgresRepository} from "./Repository/planPostgresRepository.js";
+import {PlanPostgresRepository} from "./repository/planPostgresRepository.js";
 import {AuthMiddleware} from "../../../shared/infrastructure/middlewares/authMiddleware.js";
 import {TokenService} from "../../../shared/infrastructure/security/tokenService.js";
 import {PlanParticipantePostgresRepository} from "../../planParticipante/infraestructure/Repository/planParticipantePostgresRepository.js";

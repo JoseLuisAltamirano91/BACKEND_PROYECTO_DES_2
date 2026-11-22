@@ -5,7 +5,7 @@ import { PlanParticipanteUseCase } from "../application/useCase/planParticipante
 import { AuthMiddleware } from "../../../shared/infrastructure/middlewares/authMiddleware.js";
 import { TokenService } from "../../../shared/infrastructure/security/tokenService.js";
 import { PlanParticipantePostgresRepository } from "./Repository/planParticipantePostgresRepository.js";
-import { PlanPostgresRepository } from "../../plan/infraestructure/Repository/planPostgresRepository.js";
+import { PlanPostgresRepository } from "../../plan/infraestructure/repository/planPostgresRepository.js";
 
 const router = Router();
 
