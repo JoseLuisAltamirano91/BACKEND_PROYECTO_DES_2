@@ -8,7 +8,6 @@ export class PreferenciaUsuarioModel extends Model {
     declare cusuario: string;
     declare presupuestomax: number | null;
     declare distanciamax: number | null;
-    declare tipocompania: string | null;
     declare activo: boolean | null;
     declare fingreso: Date | null;
     declare fmodificacion: Date | null;
@@ -37,10 +36,6 @@ PreferenciaUsuarioModel.init(
         },
         distanciamax: {
             type: DataTypes.DECIMAL(5, 0),
-            allowNull: true
-        },
-        tipocompania: {
-            type: DataTypes.STRING(20),
             allowNull: true
         },
         activo: {

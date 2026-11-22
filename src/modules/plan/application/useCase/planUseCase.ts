@@ -1,8 +1,13 @@
 
-import { IPlanRepository } from "../../domain/repository/iPlanRepository.js";
+import {
+    IPlanRepository,
+    IFiltroPlanes,
+    IResultadoPlanes
+} from "../../domain/repository/iPlanRepository.js";
 import { IPlanDto } from "../../domain/dto/iPlanDto.js";
 import { IPlan } from "../../domain/model/iPlan.js";
 import { IPlanParticipanteRepository } from "../../../planParticipante/domain/repository/iPlanParticipanteRepository.js";
+
 
 export class PlanUseCase {
     constructor(
@@ -116,6 +121,10 @@ export class PlanUseCase {
     async listarPublicos(cusuario: string): Promise<IPlan[]> {
         const planes = await this.repository.listarPublicos();
         return planes.filter(plan => plan.cusuario !== cusuario);
+    }
+
+    async buscarPublicosFiltrados(filtros: IFiltroPlanes): Promise<IResultadoPlanes> {
+        return this.repository.buscarPublicosFiltrados(filtros);
     }
 
     async buscarPorId(cplan: number, cusuario: string): Promise<IPlan | null> {

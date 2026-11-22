@@ -99,7 +99,7 @@ export class PreferenciaUsuarioController {
     private validarDatos(req: Request, res: Response): IPreferenciaUsuarioDto | null {
         const datos: Record<string, unknown> = req.body ?? {};
 
-        const { presupuestomax, distanciamax, tipocompania, activo } = datos;
+        const { presupuestomax, distanciamax, activo } = datos;
 
         if (
             presupuestomax !== undefined &&
@@ -130,18 +130,6 @@ export class PreferenciaUsuarioController {
         }
 
         if (
-            tipocompania !== undefined &&
-            tipocompania !== null &&
-            (typeof tipocompania !== "string" ||
-                !["SOLO", "PAREJA", "AMIGOS", "FAMILIA"].includes(tipocompania))
-        ) {
-            res.status(400).json({
-                mensaje: "Tipo de compañía inválido"
-            });
-            return null;
-        }
-
-        if (
             activo !== undefined &&
             activo !== null &&
             typeof activo !== "boolean"
@@ -155,7 +143,6 @@ export class PreferenciaUsuarioController {
         return {
             presupuestomax: presupuestomax as number | null | undefined,
             distanciamax: distanciamax as number | null | undefined,
-            tipocompania: tipocompania as string | null | undefined,
             activo: activo as boolean | null | undefined
         };
     }

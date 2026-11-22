@@ -1,7 +1,8 @@
 
 import { Request, Response } from "express";
 import { PlanUseCase } from "../application/useCase/planUseCase.js";
-import {ITokenPayload} from "../../../shared/application/iTokenPayload.js";
+import { ITokenPayload } from "../../../shared/application/iTokenPayload.js";
+import { IFiltroPlanes } from "../domain/repository/iPlanRepository.js";
 
 export class PlanController {
     constructor(private readonly planUseCase: PlanUseCase) {}
@@ -79,6 +80,53 @@ export class PlanController {
         } catch (error) {
             res.status(500).json({
                 mensaje: "No se pudieron consultar los planes públicos"
+            });
+        }
+    };
+
+    buscarPublicosFiltrados = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const usuario = res.locals.usuario as ITokenPayload;
+
+            const obtenerNumero = (campo: string): number | undefined => {
+                const valor = req.query[campo];
+                if (valor === undefined) return undefined;
+                if (typeof valor !== "string" || !valor.trim() || !Number.isFinite(Number(valor)))
+                    throw new Error(`El parametro ${campo} no es valido`);
+                return Number(valor);
+            };
+
+            const interesesParametro = req.query.intereses;
+            let intereses: number[] | undefined;
+
+            if (interesesParametro !== undefined) {
+                if (typeof interesesParametro !== "string")
+                    throw new Error("Los intereses seleccionados no son validos");
+
+                intereses = interesesParametro.trim() === ""
+                    ? []
+                    : interesesParametro.split(",").map(valor => {
+                        if (!valor.trim()) throw new Error("Los intereses seleccionados no son validos");
+                        return Number(valor);
+                    });
+            }
+
+            const filtros: IFiltroPlanes = {
+                cusuario: usuario.cusuario,
+                intereses,
+                presupuesto: obtenerNumero("presupuesto"),
+                distancia: obtenerNumero("distancia"),
+                latitud: obtenerNumero("latitud"),
+                longitud: obtenerNumero("longitud"),
+                pagina: obtenerNumero("pagina") ?? 1,
+                limite: obtenerNumero("limite") ?? 12
+            };
+
+            const resultado = await this.planUseCase.buscarPublicosFiltrados(filtros);
+            res.status(200).json(resultado);
+        } catch (error: any) {
+            res.status(400).json({
+                mensaje: error.message || "No se pudieron consultar los planes"
             });
         }
     };

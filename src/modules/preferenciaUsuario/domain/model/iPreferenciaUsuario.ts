@@ -3,7 +3,6 @@ export interface IPreferenciaUsuario {
     cusuario: string;
     presupuestomax: number | null;
     distanciamax: number | null;
-    tipocompania: string | null;
     activo: boolean | null;
     fingreso: Date | null;
     fmodificacion: Date | null;
