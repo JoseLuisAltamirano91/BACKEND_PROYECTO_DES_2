@@ -15,6 +15,12 @@ interface SolicitudRecomendacion {
 
 interface Recomendacion {
     cplan: number;
+    nombre: string | null;
+    descripcion: string | null;
+    lugar: string | null;
+    costoestimado: number | string | null;
+    fechainicio: Date | string | null;
+    fechafin: Date | string | null;
     motivo: string;
 }
 
@@ -27,17 +33,14 @@ export class RecomendacionIAUseCase {
     async recomendar(solicitud: SolicitudRecomendacion): Promise<Recomendacion[]> {
         const { consulta, cusuario, intereses, presupuesto, distancia, latitud, longitud } = solicitud;
 
-        if (!consulta?.trim()) {
+        if (!consulta?.trim())
             throw new Error("Debes indicar qué tipo de plan estás buscando");
-        }
 
-        if (consulta.length > 500) {
+        if (consulta.length > 500)
             throw new Error("La consulta no puede superar los 500 caracteres");
-        }
 
-        if (!cusuario?.trim()) {
+        if (!cusuario?.trim())
             throw new Error("No se pudo identificar al usuario");
-        }
 
         const resultado = await this.planRepository.buscarPublicosFiltrados({
             cusuario,
@@ -49,15 +52,6 @@ export class RecomendacionIAUseCase {
             pagina: 1,
             limite: 30
         });
-
-        console.log("=== PLANES ENCONTRADOS ===");
-        console.log("Total:", resultado.total);
-        console.log("Candidatos:", resultado.planes.map(plan => ({
-            cplan: plan.cplan,
-            nombre: plan.nombre,
-            publico: plan.publico,
-            cusuario: plan.cusuario
-        })));
 
         if (resultado.planes.length === 0) return [];
 
@@ -117,29 +111,41 @@ FORMATO:
             throw new Error("La IA devolvió una respuesta que no se pudo interpretar");
         }
 
-        if (!datos || typeof datos !== "object" || !("recomendaciones" in datos) ||
+        if (!datos || typeof datos !== "object" ||
+            !("recomendaciones" in datos) ||
             !Array.isArray(datos.recomendaciones)) {
             throw new Error("La respuesta de la IA tiene un formato inválido");
         }
 
-        const idsValidos = new Set(candidatos.map(plan => plan.cplan));
-        const idsUtilizados = new Set<number>();
+        const planesPorId = new Map(
+            candidatos.map(plan => [plan.cplan, plan])
+        );
 
+        const idsUtilizados = new Set<number>();
         const recomendaciones: Recomendacion[] = [];
 
         for (const item of datos.recomendaciones) {
             if (!item || typeof item !== "object") continue;
 
             const cplan = Number(item.cplan);
+            const plan = planesPorId.get(cplan);
 
-            if (!Number.isSafeInteger(cplan) || !idsValidos.has(cplan) ||
-                idsUtilizados.has(cplan) || typeof item.motivo !== "string" ||
+            if (!Number.isSafeInteger(cplan) ||
+                !plan ||
+                idsUtilizados.has(cplan) ||
+                typeof item.motivo !== "string" ||
                 !item.motivo.trim()) continue;
 
             idsUtilizados.add(cplan);
 
             recomendaciones.push({
-                cplan,
+                cplan: plan.cplan,
+                nombre: plan.nombre ?? null,
+                descripcion: plan.descripcion ?? null,
+                lugar: plan.lugar ?? null,
+                costoestimado: plan.costoestimado ?? null,
+                fechainicio: plan.fechainicio ?? null,
+                fechafin: plan.fechafin ?? null,
                 motivo: item.motivo.trim().slice(0, 300)
             });
 
