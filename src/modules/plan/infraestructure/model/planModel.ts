@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
 import { UsuarioModel } from "../../../usuario/infrastructure/model/usuarioModel.js";
+import { NegocioModel } from "../../../negocio/infrastructure/model/negocioModel.js";
 
 export class PlanModel extends Model {
     declare cplan: number;
@@ -43,7 +44,13 @@ PlanModel.init(
             onUpdate: "RESTRICT"
         },
         cinteres: { type: DataTypes.DECIMAL(10, 0), allowNull: true },
-        cnegocio: { type: DataTypes.INTEGER, allowNull: true },
+        cnegocio: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: { model: NegocioModel, key: "cnegocio" },
+            onUpdate: "RESTRICT",
+            onDelete: "RESTRICT"
+        },
         nombre: { type: DataTypes.STRING(150), allowNull: true },
         descripcion: { type: DataTypes.STRING(500), allowNull: true },
         fechainicio: { type: DataTypes.DATE, allowNull: true },
@@ -81,4 +88,10 @@ PlanModel.belongsTo(UsuarioModel, {
     foreignKey: "cusuario",
     targetKey: "cusuario",
     as: "usuario"
+});
+
+PlanModel.belongsTo(NegocioModel, {
+    foreignKey: "cnegocio",
+    targetKey: "cnegocio",
+    as: "negocio"
 });

@@ -7,13 +7,22 @@ import {
 import { IPlanDto } from "../../domain/dto/iPlanDto.js";
 import { IPlan } from "../../domain/model/iPlan.js";
 import { IPlanParticipanteRepository } from "../../../planParticipante/domain/repository/iPlanParticipanteRepository.js";
-
+import type { INegocioRepository } from "../../../negocio/domain/repository/iNegocioRepository.js";
 
 export class PlanUseCase {
     constructor(
         private readonly repository: IPlanRepository,
-        private readonly participanteRepository: IPlanParticipanteRepository
+        private readonly participanteRepository: IPlanParticipanteRepository,
+        private readonly negocioRepository: INegocioRepository
     ) {}
+
+    private async validarNegocioDelUsuario(cusuario: string, cnegocio?: number | null): Promise<void> {
+        if (cnegocio == null) return;
+
+        const negocios = await this.negocioRepository.listarPorUsuario(cusuario);
+        if (!negocios.some(negocio => negocio.cnegocio === cnegocio))
+            throw new Error("Solo puedes publicar planes a nombre de uno de tus negocios");
+    }
 
     private validarDatos(dto: Partial<IPlanDto>): void {
         if (dto.costoestimado !== undefined && dto.costoestimado !== null) {
@@ -58,6 +67,7 @@ export class PlanUseCase {
             throw new Error("El campo publico debe ser 0 o 1");
 
         this.validarDatos(dto);
+        await this.validarNegocioDelUsuario(cusuario, dto.cnegocio);
 
         const plan: IPlan = {
             cplan: 0,
@@ -155,6 +165,7 @@ export class PlanUseCase {
             throw new Error("El campo publico debe ser 0 o 1");
 
         this.validarDatos(dto);
+        await this.validarNegocioDelUsuario(cusuario, dto.cnegocio);
 
         const latitud = dto.latitud !== undefined ? dto.latitud : plan.latitud;
         const longitud = dto.longitud !== undefined ? dto.longitud : plan.longitud;

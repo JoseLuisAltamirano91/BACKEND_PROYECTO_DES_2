@@ -6,14 +6,15 @@ import {PlanPostgresRepository} from "./repository/planPostgresRepository.js";
 import {AuthMiddleware} from "../../../shared/infrastructure/middlewares/authMiddleware.js";
 import {TokenService} from "../../../shared/infrastructure/security/tokenService.js";
 import {PlanParticipantePostgresRepository} from "../../planParticipante/infraestructure/Repository/planParticipantePostgresRepository.js";
-
+import { NegocioPostgresRepository } from "../../negocio/infrastructure/repository/negocioPostgresRepository.js";
 
 const router = Router();
 
 const repository = new PlanPostgresRepository();
 const participanteRepository = new PlanParticipantePostgresRepository();
+const negocioRepository = new NegocioPostgresRepository();
 
-const useCase = new PlanUseCase(repository, participanteRepository);
+const useCase = new PlanUseCase(repository, participanteRepository, negocioRepository);
 const controller = new PlanController(useCase);
 
 const authMiddleware = new AuthMiddleware(new TokenService());
