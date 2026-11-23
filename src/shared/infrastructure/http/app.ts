@@ -13,6 +13,7 @@ import favoritoRoutes from "../../../modules/favorito/infraestructure/favoritoRo
 import geograficoRoutes from "../../../modules/geografico/infraestructure/geograficoRoutes.js";
 import detallePlanRoutes from "../../../modules/detallePlan/infraestructure/detallePlanRoutes.js";
 import recomendacionIARoutes from "../../../modules/recomendacionIA/infrastructure/RecomendacionIARoutes.js";
+import { sucursalRoutes } from "../../../modules/sucursal/infraestructure/sucursalRoutes.js";
 
 const app = express();
 
@@ -38,5 +39,6 @@ app.use("/api/favoritos", favoritoRoutes);
 app.use("/api/geografico", geograficoRoutes);
 app.use("/api/detalle-planes", detallePlanRoutes);
 app.use("/api/recomendaciones-ia", recomendacionIARoutes);
+app.use("/api/sucursales", sucursalRoutes);
 
 export default app;
