@@ -1,4 +1,4 @@
-import { Op, literal, where } from "sequelize";
+import { Op, QueryTypes, literal, where } from "sequelize";
 import { IPlan } from "../../domain/model/iPlan.js";
 import {
     IPlanRepository,
@@ -7,6 +7,7 @@ import {
 } from "../../domain/repository/iPlanRepository.js";
 import { PlanModel } from "../model/planModel.js";
 import { UsuarioModel } from "../../../usuario/infrastructure/model/usuarioModel.js";
+import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
 
 export class PlanPostgresRepository implements IPlanRepository {
 
@@ -160,10 +161,34 @@ export class PlanPostgresRepository implements IPlanRepository {
     }
 
     async actualizar(cplan: number, datos: Partial<IPlan>): Promise<IPlan | null> {
-        const plan = await PlanModel.findByPk(cplan);
-        if (!plan) return null;
+        return sequelize.transaction(async transaction => {
+            const plan = await PlanModel.findByPk(cplan, {
+                transaction,
+                lock: transaction.LOCK.UPDATE
+            });
+            if (!plan) return null;
 
-        await plan.update(datos);
-        return plan.get({ plain: true }) as IPlan;
+            if (datos.cupomaximo != null) {
+                const [resultado] = await sequelize.query<{ inscritos: string }>(
+                    `SELECT COUNT(*) AS inscritos
+                 FROM public."PLANPARTICIPANTE"
+                 WHERE cplan = :cplan
+                   AND estado = 'CONFIRMADO'
+                   AND cusuario <> :creador`,
+                    {
+                        replacements: { cplan, creador: plan.cusuario },
+                        type: QueryTypes.SELECT,
+                        transaction
+                    }
+                );
+
+                const inscritos = Number(resultado.inscritos);
+                if (datos.cupomaximo < inscritos)
+                    throw new Error(`El cupo máximo debe ser de al menos ${inscritos} porque ya hay participantes confirmados`);
+            }
+
+            await plan.update(datos, { transaction });
+            return plan.get({ plain: true }) as IPlan;
+        });
     }
 }
