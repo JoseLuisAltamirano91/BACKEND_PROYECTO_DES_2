@@ -4,7 +4,7 @@ import { TokenService } from "../../../shared/infrastructure/security/tokenServi
 import { NegocioPostgresRepository } from "../../negocio/infrastructure/repository/negocioPostgresRepository.js";
 import { SucursalUseCase } from "../application/useCase/sucursalUseCase.js";
 import { SucursalController } from "./sucursalController.js";
-import { SucursalPostgresRepository } from "./Repository/favoritoPostgresRepository.js";
+import { SucursalPostgresRepository } from "./Repository/sucursalPostgresRepository.js";
 
 const sucursalRoutes = Router();
 const authMiddleware = new AuthMiddleware(new TokenService());

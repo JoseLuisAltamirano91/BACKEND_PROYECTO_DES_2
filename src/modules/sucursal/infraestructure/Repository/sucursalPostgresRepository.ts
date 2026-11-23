@@ -74,4 +74,10 @@ export class SucursalPostgresRepository implements ISucursalRepository {
             cusuariomod: sucursal.cusuariomod
         };
     }
+
+    async buscarPorId(csucursal: number): Promise<ISucursal | null> {
+        const sucursal = await SucursalModel.findByPk(csucursal);
+        return sucursal ? this.aDominio(sucursal) : null;
+    }
+
 }

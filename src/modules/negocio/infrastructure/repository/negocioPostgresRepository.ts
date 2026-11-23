@@ -153,4 +153,17 @@ export class NegocioPostgresRepository implements INegocioRepository {
             cusuariomod: negocio.cusuariomod
         };
     }
+
+
+    async perteneceAUsuario(cnegocio: number, cusuario: string): Promise<boolean> {
+        const negocio = await NegocioModel.findOne({
+            where: {
+                cnegocio,
+                cusuario,
+                activo: 1
+            }
+        });
+
+        return negocio !== null;
+    }
 }

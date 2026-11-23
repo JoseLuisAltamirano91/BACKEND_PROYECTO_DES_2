@@ -16,4 +16,6 @@ export interface ISucursalRepository {
         cusuario: string,
         datos: ISucursalDto
     ): Promise<ISucursal | null>;
+
+    buscarPorId(csucursal: number): Promise<ISucursal | null>;
 }
