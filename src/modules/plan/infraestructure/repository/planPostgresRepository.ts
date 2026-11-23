@@ -1,4 +1,3 @@
-
 import { Op, literal, where } from "sequelize";
 import { IPlan } from "../../domain/model/iPlan.js";
 import {
@@ -98,6 +97,7 @@ export class PlanPostgresRepository implements IPlanRepository {
 
         const condiciones = {
             publico: 1,
+            estado: "PLANIFICADO",
             ...(cusuario ? {
                 cusuario: { [Op.ne]: cusuario }
             } : {}),
@@ -114,8 +114,19 @@ export class PlanPostgresRepository implements IPlanRepository {
             } : {})
         };
 
+        const condicionCupo = literal(`(
+            "Plan"."cupomaximo" IS NULL OR
+            "Plan"."cupomaximo" > (
+                SELECT COUNT(*)
+                FROM public."PLANPARTICIPANTE" AS pp
+                WHERE pp."cplan" = "Plan"."cplan"
+                  AND pp."estado" = 'CONFIRMADO'
+                  AND pp."cusuario" <> "Plan"."cusuario"
+            )
+        )`);
+
         const resultado = await PlanModel.findAndCountAll({
-            where: condiciones,
+            where: { [Op.and]: [condiciones, condicionCupo] },
             include: [{
                 model: UsuarioModel,
                 as: "usuario",

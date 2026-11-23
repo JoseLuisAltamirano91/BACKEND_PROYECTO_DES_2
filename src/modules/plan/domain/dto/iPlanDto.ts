@@ -7,6 +7,7 @@ export interface IPlanDto {
     cinteres?: number | null;
     cnegocio?: number | null;
     costoestimado?: string | number | null;
+    cupomaximo?: number | null;
     latitud?: string | number | null;
     longitud?: string | number | null;
     lugar?: string | null;

@@ -21,6 +21,10 @@ export class PlanUseCase {
                 throw new Error("El costo estimado debe ser un numero mayor o igual a cero");
         }
 
+        if (dto.cupomaximo != null &&
+            (!Number.isInteger(dto.cupomaximo) || dto.cupomaximo < 1 || dto.cupomaximo > 99999))
+            throw new Error("El cupo maximo debe ser un entero entre 1 y 99999");
+
         if (dto.latitud !== undefined && dto.latitud !== null) {
             if (String(dto.latitud).trim() === "" || !Number.isFinite(Number(dto.latitud)) || Number(dto.latitud) < -90 || Number(dto.latitud) > 90)
                 throw new Error("La latitud debe estar entre -90 y 90");
@@ -65,6 +69,7 @@ export class PlanUseCase {
             fechainicio: dto.fechainicio ?? null,
             fechafin: dto.fechafin ?? null,
             costoestimado: dto.costoestimado != null ? String(dto.costoestimado) : null,
+            cupomaximo: dto.cupomaximo ?? null,
             latitud: dto.latitud != null ? String(dto.latitud) : null,
             longitud: dto.longitud != null ? String(dto.longitud) : null,
             lugar: dto.lugar?.trim() || null,
@@ -167,6 +172,7 @@ export class PlanUseCase {
             ...(dto.costoestimado !== undefined && {
                 costoestimado: dto.costoestimado === null ? null : String(dto.costoestimado)
             }),
+            ...(dto.cupomaximo !== undefined && { cupomaximo: dto.cupomaximo }),
             ...(dto.latitud !== undefined && {
                 latitud: dto.latitud === null ? null : String(dto.latitud)
             }),

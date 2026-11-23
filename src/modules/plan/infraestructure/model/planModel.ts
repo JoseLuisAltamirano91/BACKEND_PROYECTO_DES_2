@@ -12,6 +12,7 @@ export class PlanModel extends Model {
     declare fechainicio: Date | null;
     declare fechafin: Date | null;
     declare costoestimado: string | null;
+    declare cupomaximo: number | null;
     declare latitud: string | null;
     declare longitud: string | null;
     declare lugar: string | null;
@@ -48,6 +49,15 @@ PlanModel.init(
         fechainicio: { type: DataTypes.DATE, allowNull: true },
         fechafin: { type: DataTypes.DATE, allowNull: true },
         costoestimado: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
+        cupomaximo: {
+            type: DataTypes.DECIMAL(5, 0),
+            allowNull: true,
+            validate: { isInt: true, min: 1, max: 99999 },
+            get() {
+                const valor:any = this.getDataValue("cupomaximo");
+                return valor == null ? null : Number(valor);
+            }
+        },
         latitud: { type: DataTypes.DECIMAL(10, 7), allowNull: true },
         longitud: { type: DataTypes.DECIMAL(10, 7), allowNull: true },
         lugar: { type: DataTypes.STRING(250), allowNull: true },

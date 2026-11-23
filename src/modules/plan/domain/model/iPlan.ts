@@ -8,6 +8,7 @@ export interface IPlan {
     fechainicio: Date | null;
     fechafin: Date | null;
     costoestimado: string | null;
+    cupomaximo: number | null;
     latitud: string | null;
     longitud: string | null;
     lugar: string | null;

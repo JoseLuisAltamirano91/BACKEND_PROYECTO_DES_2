@@ -20,6 +20,9 @@ export class PlanParticipanteUseCase {
         if (Number(plan.publico) !== 1 && plan.cusuario !== cusuario)
             throw new Error("No puedes unirte a un plan privado");
 
+        if (plan.estado !== "PLANIFICADO")
+            throw new Error("Solo puedes inscribirte en un plan planificado");
+
         const existe = await this.repository.buscar(dto.cplan, cusuario);
         if (existe) throw new Error("El usuario ya participa en este plan");
 
@@ -58,6 +61,13 @@ export class PlanParticipanteUseCase {
 
         const participante = await this.repository.buscar(cplan, cusuario);
         if (!participante) return null;
+
+        if (estado === "CONFIRMADO" && participante.estado !== "CONFIRMADO") {
+            const plan = await this.planRepository.buscarPorId(cplan);
+            if (!plan) throw new Error("El plan no existe");
+            if (plan.estado !== "PLANIFICADO")
+                throw new Error("Solo puedes confirmar tu participación en un plan planificado");
+        }
 
         return this.repository.actualizar(cplan, cusuario, {
             estado,
