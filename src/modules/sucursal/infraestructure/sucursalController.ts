@@ -64,4 +64,30 @@ export class SucursalController {
         }
         res.status(500).json({ mensaje: "Error al procesar la solicitud de sucursales" });
     }
+
+
+    listarPublicas = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const cnegocio = Number(req.params.cnegocio);
+            const sucursales = await this.useCase.listarPublicas(cnegocio);
+
+            res.status(200).json({
+                sucursales: sucursales.map(sucursal => ({
+                    csucursal: sucursal.csucursal,
+                    nombre: sucursal.nombre,
+                    direccion: sucursal.direccion,
+                    telefono: sucursal.telefono,
+                    latitud: sucursal.latitud,
+                    longitud: sucursal.longitud
+                }))
+            });
+        } catch (error) {
+            res.status(400).json({
+                mensaje: error instanceof Error
+                    ? error.message
+                    : "Error al consultar las sucursales"
+            });
+        }
+    };
+
 }

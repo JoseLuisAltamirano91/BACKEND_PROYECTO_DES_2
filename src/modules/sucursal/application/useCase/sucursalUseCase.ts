@@ -105,4 +105,23 @@ export class SucursalUseCase {
 
         return numero;
     }
+
+
+    async listarPublicas(cnegocio: number): Promise<ISucursal[]> {
+        if (!Number.isInteger(cnegocio) || cnegocio <= 0) {
+            throw new Error("El código de negocio es inválido");
+        }
+
+        const negocio = await this.negocioRepository.buscarPublico(cnegocio);
+
+        if (!negocio) {
+            throw new Error("El negocio no existe o está inactivo");
+        }
+
+        const sucursales = await this.repository.listarPorNegocio(cnegocio);
+
+        return sucursales.filter(sucursal => sucursal.activo);
+    }
+
+
 }

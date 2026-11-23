@@ -15,6 +15,10 @@ const authMiddleware = new AuthMiddleware(new TokenService());
 
 export const negocioRoutes = Router();
 
+// Ruta pública: consultar información de un negocio
+negocioRoutes.get("/publico/:cnegocio", negocioController.buscarPublico);
+
+// Rutas protegidas: administración de negocios
 negocioRoutes.use(authMiddleware.autenticar);
 
 negocioRoutes.post("/", negocioController.registrar);

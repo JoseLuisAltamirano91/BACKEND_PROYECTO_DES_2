@@ -16,4 +16,6 @@ export interface INegocioRepository {
     ): Promise<INegocio | null>;
 
     perteneceAUsuario(cnegocio: number, cusuario: string): Promise<boolean>;
+
+    buscarPublico(cnegocio: number): Promise<INegocio | null>;
 }

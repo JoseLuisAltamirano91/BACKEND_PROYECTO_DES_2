@@ -30,4 +30,14 @@ export class NegocioUseCase {
             datos
         );
     }
+
+
+    async buscarPublico(cnegocio: number): Promise<INegocio | null> {
+        if (!Number.isInteger(cnegocio) || cnegocio <= 0) {
+            throw new Error("El identificador del negocio no es válido");
+        }
+
+        return this.negocioRepository.buscarPublico(cnegocio);
+    }
+
 }

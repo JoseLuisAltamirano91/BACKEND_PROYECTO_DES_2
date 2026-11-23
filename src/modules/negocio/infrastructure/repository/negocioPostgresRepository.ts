@@ -166,4 +166,32 @@ export class NegocioPostgresRepository implements INegocioRepository {
 
         return negocio !== null;
     }
+
+
+    async buscarPublico(cnegocio: number): Promise<INegocio | null> {
+        const negocio = await NegocioModel.findOne({
+            where: {
+                cnegocio,
+                activo: 1
+            }
+        });
+
+        if (!negocio) return null;
+
+        return {
+            cnegocio: negocio.cnegocio,
+            cusuario: negocio.cusuario,
+            nombre: negocio.nombre,
+            descripcion: negocio.descripcion,
+            telefono: negocio.telefono,
+            correo: negocio.correo,
+            activo: Number(negocio.activo) === 1,
+            fcreacion: negocio.fcreacion === null ? null : Number(negocio.fcreacion),
+            fingreso: negocio.fingreso,
+            fmodificacion: negocio.fmodificacion,
+            cusuarioing: negocio.cusuarioing,
+            cusuariomod: negocio.cusuariomod
+        };
+    }
+
 }

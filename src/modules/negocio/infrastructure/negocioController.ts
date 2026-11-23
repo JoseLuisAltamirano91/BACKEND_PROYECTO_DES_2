@@ -155,4 +155,30 @@ export class NegocioController {
             correo: correo ?? ""
         };
     }
+
+
+    buscarPublico = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const cnegocio = Number(req.params.cnegocio);
+            const negocio = await this.negocioUseCase.buscarPublico(cnegocio);
+
+            if (!negocio) {
+                res.status(404).json({ mensaje: "Negocio no encontrado" });
+                return;
+            }
+
+            res.json({
+                cnegocio: negocio.cnegocio,
+                nombre: negocio.nombre,
+                descripcion: negocio.descripcion,
+                telefono: negocio.telefono,
+                correo: negocio.correo
+            });
+        } catch (error) {
+            res.status(400).json({
+                mensaje: error instanceof Error ? error.message : "Error al consultar el negocio"
+            });
+        }
+    };
+
 }
