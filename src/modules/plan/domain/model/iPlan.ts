@@ -3,6 +3,7 @@ export interface IPlan {
     cusuario: string;
     cinteres: number | null;
     cnegocio: number | null;
+    csucursal: number | null;
     nombre: string | null;
     descripcion: string | null;
     fechainicio: Date | null;

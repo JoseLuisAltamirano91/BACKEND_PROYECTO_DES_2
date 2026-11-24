@@ -6,6 +6,7 @@ export interface IPlanDto {
     fechafin?: Date | null;
     cinteres?: number | null;
     cnegocio?: number | null;
+    csucursal?: number | null;
     costoestimado?: string | number | null;
     cupomaximo?: number | null;
     latitud?: string | number | null;

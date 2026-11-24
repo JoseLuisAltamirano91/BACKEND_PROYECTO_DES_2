@@ -8,12 +8,14 @@ import { IPlanDto } from "../../domain/dto/iPlanDto.js";
 import { IPlan } from "../../domain/model/iPlan.js";
 import { IPlanParticipanteRepository } from "../../../planParticipante/domain/repository/iPlanParticipanteRepository.js";
 import type { INegocioRepository } from "../../../negocio/domain/repository/iNegocioRepository.js";
+import type { ISucursalRepository } from "../../../sucursal/domain/repository/iSucursalRepository.js";
 
 export class PlanUseCase {
     constructor(
         private readonly repository: IPlanRepository,
         private readonly participanteRepository: IPlanParticipanteRepository,
-        private readonly negocioRepository: INegocioRepository
+        private readonly negocioRepository: INegocioRepository,
+        private readonly sucursalRepository: ISucursalRepository
     ) {}
 
     private async validarNegocioDelUsuario(cusuario: string, cnegocio?: number | null): Promise<void> {
@@ -68,12 +70,17 @@ export class PlanUseCase {
 
         this.validarDatos(dto);
         await this.validarNegocioDelUsuario(cusuario, dto.cnegocio);
+        await this.validarSucursalDelNegocio(
+            dto.cnegocio ?? null,
+            dto.csucursal ?? null
+        );
 
         const plan: IPlan = {
             cplan: 0,
             cusuario,
             cinteres: dto.cinteres ?? null,
             cnegocio: dto.cnegocio ?? null,
+            csucursal: dto.csucursal ?? null,
             nombre: dto.nombre.trim(),
             descripcion: dto.descripcion ?? null,
             fechainicio: dto.fechainicio ?? null,
@@ -165,7 +172,20 @@ export class PlanUseCase {
             throw new Error("El campo publico debe ser 0 o 1");
 
         this.validarDatos(dto);
-        await this.validarNegocioDelUsuario(cusuario, dto.cnegocio);
+
+        const cnegocioFinal = dto.cnegocio !== undefined
+            ? dto.cnegocio
+            : plan.cnegocio;
+
+        const csucursalFinal = dto.csucursal !== undefined
+            ? dto.csucursal
+            : plan.csucursal;
+
+        await this.validarNegocioDelUsuario(cusuario, cnegocioFinal);
+        await this.validarSucursalDelNegocio(
+            cnegocioFinal ?? null,
+            csucursalFinal ?? null
+        );
 
         const latitud = dto.latitud !== undefined ? dto.latitud : plan.latitud;
         const longitud = dto.longitud !== undefined ? dto.longitud : plan.longitud;
@@ -180,6 +200,7 @@ export class PlanUseCase {
             ...(dto.fechafin !== undefined && { fechafin: dto.fechafin }),
             ...(dto.cinteres !== undefined && { cinteres: dto.cinteres }),
             ...(dto.cnegocio !== undefined && { cnegocio: dto.cnegocio }),
+            ...(dto.csucursal !== undefined && { csucursal: dto.csucursal }),
             ...(dto.costoestimado !== undefined && {
                 costoestimado: dto.costoestimado === null ? null : String(dto.costoestimado)
             }),
@@ -197,4 +218,30 @@ export class PlanUseCase {
             cusuariomod: cusuario
         });
     }
+
+
+    private async validarSucursalDelNegocio(
+        cnegocio: number | null,
+        csucursal: number | null
+    ): Promise<void> {
+        if (cnegocio === null && csucursal === null) return;
+
+        if (cnegocio === null || csucursal === null)
+            throw new Error("Debes seleccionar un negocio y una sucursal");
+
+        if (!Number.isInteger(csucursal) || csucursal <= 0)
+            throw new Error("La sucursal seleccionada no es válida");
+
+        const sucursal = await this.sucursalRepository.buscarPorId(csucursal);
+
+        if (!sucursal)
+            throw new Error("La sucursal seleccionada no existe");
+
+        if (Number(sucursal.activo) !== 1)
+            throw new Error("La sucursal seleccionada está inactiva");
+
+        if (Number(sucursal.cnegocio) !== cnegocio)
+            throw new Error("La sucursal no pertenece al negocio seleccionado");
+    }
+
 }

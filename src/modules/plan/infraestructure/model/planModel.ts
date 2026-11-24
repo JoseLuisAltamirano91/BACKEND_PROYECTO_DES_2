@@ -2,12 +2,14 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../../../../shared/infrastructure/config/sequelize.js";
 import { UsuarioModel } from "../../../usuario/infrastructure/model/usuarioModel.js";
 import { NegocioModel } from "../../../negocio/infrastructure/model/negocioModel.js";
+import { SucursalModel } from "../../../sucursal/infraestructure/model/sucursalModel.js";
 
 export class PlanModel extends Model {
     declare cplan: number;
     declare cusuario: string;
     declare cinteres: number | null;
     declare cnegocio: number | null;
+    declare csucursal: number | null;
     declare nombre: string | null;
     declare descripcion: string | null;
     declare fechainicio: Date | null;
@@ -48,6 +50,16 @@ PlanModel.init(
             type: DataTypes.INTEGER,
             allowNull: true,
             references: { model: NegocioModel, key: "cnegocio" },
+            onUpdate: "RESTRICT",
+            onDelete: "RESTRICT"
+        },
+        csucursal: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: SucursalModel,
+                key: "csucursal"
+            },
             onUpdate: "RESTRICT",
             onDelete: "RESTRICT"
         },
@@ -94,4 +106,10 @@ PlanModel.belongsTo(NegocioModel, {
     foreignKey: "cnegocio",
     targetKey: "cnegocio",
     as: "negocio"
+});
+
+PlanModel.belongsTo(SucursalModel, {
+    foreignKey: "csucursal",
+    targetKey: "csucursal",
+    as: "sucursal"
 });
