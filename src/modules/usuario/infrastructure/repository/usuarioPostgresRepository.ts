@@ -1,11 +1,15 @@
 import { Op, fn, col, where } from "sequelize";
 import {IUsuario} from "../../domain/model/iUsuario.js";
-import {IUsuarioRepository} from "../../domain/repository/iUsuarioRepository.js";
+import {IUsuarioRepository, PerfilUsuario} from "../../domain/repository/iUsuarioRepository.js";
 import {INuevoUsuarioDto} from "../../domain/dto/iNuevoUsuarioDto.js";
 import {UsuarioModel} from "../model/usuarioModel.js";
 import {UsuarioRolModel} from "../model/usuarioRolModel.js";
 import {RolModel} from "../model/rolModel.js";
 import {sequelize} from "../../../../shared/infrastructure/config/sequelize.js";
+
+const camposPerfil: (keyof PerfilUsuario)[] = [
+    "cusuario", "nombres", "apellidos", "correo", "telefono"
+];
 
 export class UsuarioPostgresRepository implements IUsuarioRepository {
 
@@ -99,5 +103,53 @@ export class UsuarioPostgresRepository implements IUsuarioRepository {
                 { transaction }
             );
         });
+    }
+
+
+    private mapearPerfil(usuario: UsuarioModel): PerfilUsuario {
+        return {
+            cusuario: usuario.cusuario,
+            nombres: usuario.nombres ?? "",
+            apellidos: usuario.apellidos ?? "",
+            correo: usuario.correo ?? "",
+            telefono: usuario.telefono ?? null
+        };
+    }
+
+    async buscarPerfil(cusuario: string): Promise<PerfilUsuario | null> {
+        const usuario = await UsuarioModel.findOne({
+            attributes: camposPerfil,
+            where: { cusuario, activo: 1 }
+        });
+
+        return usuario ? this.mapearPerfil(usuario) : null;
+    }
+
+    async actualizarPerfil(
+        cusuario: string,
+        nombres: string,
+        apellidos: string,
+        telefono?: string | null
+    ): Promise<PerfilUsuario | null> {
+        const cambios: {
+            nombres: string;
+            apellidos: string;
+            telefono?: string | null;
+        } = {
+            nombres: nombres.trim(),
+            apellidos: apellidos.trim()
+        };
+
+        if (telefono !== undefined) {
+            cambios.telefono = telefono?.trim() || null;
+        }
+
+        const [, usuarios] = await UsuarioModel.update(cambios, {
+            where: { cusuario, activo: 1 },
+            returning: camposPerfil
+        });
+
+        const usuario = usuarios[0];
+        return usuario ? this.mapearPerfil(usuario) : null;
     }
 }

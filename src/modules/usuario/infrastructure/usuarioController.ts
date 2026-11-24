@@ -7,11 +7,17 @@ import {
     CorreoYaRegistradoError,
     RegistroUsuarioUseCase
 } from "../application/useCase/registroUsuarioUseCase.js";
+import {
+    DatosPerfilInvalidosError,
+    type PerfilUsuarioUseCase
+} from "../application/useCase/PerfilUsuarioUseCase.js";
+
 
 export class UsuarioController {
     constructor(
         private readonly loginUseCase: LoginUseCase,
-        private readonly registroUseCase: RegistroUsuarioUseCase
+        private readonly registroUseCase: RegistroUsuarioUseCase,
+        private readonly perfilUseCase: PerfilUsuarioUseCase
     ) {}
 
     login = async (req: Request, res: Response): Promise<void> => {
@@ -124,6 +130,68 @@ export class UsuarioController {
             res.status(500).json({
                 mensaje: "No se pudo registrar el usuario"
             });
+        }
+    };
+
+    private obtenerCodigoUsuario(res: Response): string | null {
+        const sesion = res.locals.usuario;
+        const codigo = sesion?.cusuario ?? sesion?.sub;
+
+        if (typeof codigo !== "string" || !codigo.trim()) {
+            res.status(401).json({ mensaje: "Sesión inválida" });
+            return null;
+        }
+
+        return codigo.trim();
+    }
+
+    consultarMiPerfil = async (_req: Request, res: Response): Promise<void> => {
+        const cusuario = this.obtenerCodigoUsuario(res);
+        if (!cusuario) return;
+
+        try {
+            const usuario = await this.perfilUseCase.consultar(cusuario);
+
+            if (!usuario) {
+                res.status(404).json({ mensaje: "Perfil de usuario no encontrado" });
+                return;
+            }
+
+            res.status(200).json({ usuario });
+        } catch {
+            console.error("Error al consultar el perfil");
+            res.status(500).json({ mensaje: "No se pudo consultar el perfil" });
+        }
+    };
+
+    actualizarMiPerfil = async (req: Request, res: Response): Promise<void> => {
+        const cusuario = this.obtenerCodigoUsuario(res);
+        if (!cusuario) return;
+
+        const { nombres, apellidos, telefono } = req.body ?? {};
+
+        try {
+            const usuario = await this.perfilUseCase.actualizar(
+                cusuario,
+                nombres,
+                apellidos,
+                telefono
+            );
+
+            if (!usuario) {
+                res.status(404).json({ mensaje: "Perfil de usuario no encontrado" });
+                return;
+            }
+
+            res.status(200).json({ usuario });
+        } catch (error) {
+            if (error instanceof DatosPerfilInvalidosError) {
+                res.status(400).json({ mensaje: error.message });
+                return;
+            }
+
+            console.error("Error al actualizar el perfil");
+            res.status(500).json({ mensaje: "No se pudo actualizar el perfil" });
         }
     };
 }
