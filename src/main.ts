@@ -16,6 +16,7 @@ import { cargarProvincias } from "./modules/geografico/infraestructure/seed/prov
 import { cargarCantones } from "./modules/geografico/infraestructure/seed/cantonSeed.js";
 import { cargarParroquias } from "./modules/geografico/infraestructure/seed/parroquiaSeed.js";
 import { cargarIntereses } from "./modules/intereses/infraestructure/seed/interesSeed.js";
+import {cargarRoles} from "./modules/usuario/seed/rolSeed.js";
 
 const port = Number(process.env.PORT ?? 3977);
 
@@ -35,6 +36,7 @@ async function iniciar(): Promise<void> {
         await cargarCantones();
         await cargarParroquias();
         await cargarIntereses();
+        await cargarRoles();
         console.log("Catalogos geograficos cargados correctamente");
 
         await conectarMongoDB();
