@@ -21,6 +21,18 @@ export class DetallePlanMongoRepository implements IDetallePlanRepository {
         return detalle ? this.convertir(detalle) : null;
     }
 
+
+    async buscarPorPlanes(cplanes: number[]): Promise<IDetallePlan[]> {
+        if (cplanes.length === 0) return [];
+
+        const detalles = await DetallePlanModel.find({
+            cplan: { $in: cplanes }
+        });
+
+        return detalles.map(detalle => this.convertir(detalle));
+    }
+
+
     async actualizar(cplan: number, datos: IDetallePlanDto): Promise<IDetallePlan | null> {
         const detalle = await DetallePlanModel.findOneAndUpdate(
             { cplan },
